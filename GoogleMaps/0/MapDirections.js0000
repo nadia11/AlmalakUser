@@ -1,0 +1,67 @@
+import React, { Component } from 'react';
+import { View, Text, StyleSheet, TextInput, Image, TouchableOpacity, Dimensions, Keyboard, Platform, Button } from 'react-native';
+import MapViewDirections from 'react-native-maps-directions';
+
+
+const API_KEY = 'AIzaSyDERqtrRIU_73ERnwUG1PE54Ud0TEMJYC8';
+
+const directions = ({ destination, origin, onReady }) =>{
+  <MapViewDirections destination={destination} origin={origin} onReady={onReady} apikey={API_KEY} strokeWidth={3} strokeColor="#222" />
+};
+export default directions;
+
+
+const styles = StyleSheet.create({
+  container:{
+    position: 'absolute',
+    top: Platform.select({ ios: 60, android: 40 }),
+    width: '100%',
+  },
+  textInputContainer: {
+    flex: 1,
+    backgroundColor: 'transparent',
+    height: 54,
+    marginHorizontal: 20,
+    borderTopWidth: 0,
+    borderBottomWidth: 0
+  },
+  textInput: {
+    height: 54,
+    margin: 0,
+    borderRadius: 0,
+    paddingLeft: 20,
+    paddingTop: 0,
+    paddingRight: 20,
+    paddingBottom: 0,
+    marginLeft: 0,
+    marginTop: 0,
+    marginRight: 0,
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowOffset: {x: 0, y: 0},
+    shadowRadius: 15,
+    borderWidth: 1,
+    borderColor: '#ddd',
+    fontSize: 18
+  },
+  listView: {
+    borderWidth: 1,
+    borderColor: '#ddd',
+    backgroundColor: '#fff',
+    marginHorizontal: 20,
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowOffset: {x: 0, y: 0},
+    shadowRadius: 15,
+    marginTop: 10
+  },
+  description: {
+    fontSize: 16
+  },
+  row: {
+    padding: 20,
+    height: 58
+  }
+});

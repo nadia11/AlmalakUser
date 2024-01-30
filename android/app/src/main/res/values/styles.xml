@@ -1,0 +1,39 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="android:textColor">#000000</item>
+        <item name="colorPrimary">#354557</item>
+        <item name="colorPrimaryDark">#000</item>
+
+        <!-- sets cursor color -->
+        <item name="colorControlActivated">#F53D3D</item>
+
+        <item name="android:datePickerDialogTheme">@style/datePickerTheme</item>
+        <item name="android:timePickerDialogTheme">@style/timePickerTheme</item>
+    </style>
+
+    <style name="datePickerTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">#285E29</item> <!--header background-->
+        <item name="android:windowBackground">@color/white</item>  <!--calendar background-->
+        <item name="colorControlActivated">#d41908</item> <!--selected day-->
+        <item name="colorControlHighlight">#ba4b99</item> <!--Todays date color-->
+        <item name="android:textColorPrimary">#000000</item> <!--days of the month-->
+        <item name="android:textColorSecondary">#000000</item> <!--days of the week-->
+        <item name="android:selectableItemBackgroundBorderless">@color/white</item> <!--Next/Previous Arror Color-->
+    </style>
+    
+    <style name="timePickerTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">#285E29</item>
+        <item name="android:textColorPrimary">#d41908</item>
+    </style>
+	
+	
+	<!-- Adds the splash screen definition -->
+	<style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
+		<item name="android:statusBarColor">@color/splashscreen_bg</item>
+        <!-- <item name="android:windowBackground">@drawable/background_splash</item> -->
+		<item name="android:background">@drawable/background_splash</item>
+	</style>
+</resources>

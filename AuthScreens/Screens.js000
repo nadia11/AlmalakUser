@@ -1,0 +1,246 @@
+import React, { Component } from 'react';
+import { View, Text, StyleSheet, TextInput, Image, ImageBackground, TouchableOpacity, Animated, Dimensions, Keyboard, Platform, Linking, Alert, ToastAndroid, ActivityIndicator } from 'react-native';
+
+import * as Animatable from 'react-native-animatable';
+import * as Font from 'expo-font';
+import { Ionicons } from '@expo/vector-icons';
+//import { Container, Header, Content, Button } from 'native-base';
+// import { Button } from 'react-native-elements';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const SCREEN_HEIGHT = Dimensions.get('window').height;
+const SCREEN_WIDTH = Dimensions.get('window').width;
+
+import { AuthContext } from './context';
+
+export const Profile = () => {
+  return (
+    <View style={styles.container}>
+      <Text>Profile</Text>
+      <Button title="Drawer" onPress={() => alert('todo') }></Button>
+      <Button title="Sign Out" onPress={() => alert('todo') }></Button>
+    </View>
+  )
+}
+
+
+export const SignIn = (props) => {
+  const { navigation } = props;
+  const { signIn } = React.useContext(AuthContext);
+
+  const [username, setUsername] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [userToken, setUserToken] = React.useState(null);
+  const [mobile, setMobile] = React.useState();
+  const [isLoading, setIsLoading] = React.useState(true);
+  const [animating, setAnimating] = React.useState(false);
+
+  const signUpMobilePage = () => {
+    navigation.navigate('SignUpMobile', {
+      postId: 3006, otherParam: 'Pass you want here'
+    });
+  }
+  const forgotPasswordPage = () => {
+    navigation.navigate('ForgotPassword', {
+      postId: 3006, otherParam: 'Pass you want here'
+    });
+  }
+
+  
+  // async componentDidMount() {
+  //   try {
+  //     await fetch('https://webhook.site/27648e01-a8de-41b5-83fb-b250bdcf1018', {
+  //       method: 'POST',
+  //       node: 'no-cors',
+  //       headers: {
+  //         Accept: 'application/json',
+  //         'Content-Type': 'application/json'
+  //       },
+  //       body: JSON.stringify({ username: 'rabiul' }),
+  //     });
+  //   }catch(e) { console.log(e); }
+  // }
+
+  const sendOTP = (RECEIVER_NUMBER, OTP_CO) => {
+    //Wrong OTP Please Try Again
+    //http://www.btssms.com/smsapi?api_key=R20000195e3da5a22eece7.61147023&type=text&contacts=01998369826&senderid=8809601001061&msg=123456
+    
+    // fetch('http://www.btssms.com/smsapi', {
+    //   method: 'POST',
+    //   headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
+    //   body: JSON.stringify({
+    //     api_key: 'R20000195e3da5a22eece7.61147023',
+    //     type: 'text',
+    //     contacts: RECEIVER_NUMBER,
+    //     senderid: '8809601001061',
+    //     msg: OTP_CODE
+    //   })
+    // })
+    // .then((response) => response.json())
+    // .then((responseJson) => console.warn(responseJson) )
+    // .catch((error) => console.error(error));
+    
+  }
+
+  const checkLogin = async () => {
+    setAnimating(true);
+    //this.sendOTP(mobileNumber, '123456');
+
+    await fetch('https://almalak-admin-panel.ledkioskbd.com/api/android/rider/login-by-mobile', {
+      method: 'POST', headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+      body: JSON.stringify({ mobile: mobile })
+    })
+    .then((response) => response.json())
+    .then(async (responseJson) => {
+      if(responseJson.code === 200){
+        setIsLoading(false); setUserToken('1');
+        // this.setState({ userToken: '1' });
+        //navigation.navigate('App');
+        try {
+          await AsyncStorage.setItem('mobile', mobile);
+          await AsyncStorage.setItem('userToken', '1');
+          signIn(); /*This for auto redirect to home page & refresh*/
+          setAnimating(false);
+        } catch (error) { console.error(error); }
+      }
+      else if(responseJson.code === 'empty'){ Alert.alert('Error', responseJson.message, [{ text: "OK" }]); setAnimating(false); }
+      else{ Alert.alert('Error', 'Invalid Mobile. Please try again.', [{ text: "OK" }]); setAnimating(false); }
+    })
+    .catch((error) => console.error(error));
+  }
+
+  React.useEffect(() => {
+    getUserData();
+  }, []);
+  
+
+  const getUserData = async () => {
+    try {
+      const userToken = await AsyncStorage.getItem('userToken')
+      const userMobile = await AsyncStorage.getItem('mobile')
+
+      if(userToken !== null) { setUserToken( userToken ); }
+      if(userMobile !== null) { setMobile( userMobile ); }
+    } catch (error) { console.error(error); }
+  }
+
+  const disabledBtn = () => {
+    return mobile && mobile.length.toString() == 11 ? 0 : 1;
+  }
+
+  return (
+    <View style={styles.container}>
+          <View style={{ flex: 3, alignItems: 'center', justifyContent: 'center' }}>
+            <Animatable.View animation="zoomIn" iterationCount={1} style={{ height: 100, width: 100, alignItems: 'center', justifyContent: 'center' }}>
+              <Image style={{ height: 128, width: 128, resizeMode: 'contain' }} source={require('../assets/logo.png')} />
+            </Animatable.View>
+          </View>{ /*Top Part*/ }
+
+          <Animatable.View animation="slideInUp" iterationCount={1} style={{ paddingBottom: 40, backgroundColor: "#fff", flex: 6 }}>
+            <Animated.View style={{ height: 250, backgroundColor: 'white' }}>
+              <Animated.View style={{ opacity: 1, alignItems: 'flex-start', paddingHorizontal: 25, marginTop: 50 }}>
+                <Text style={{ fontSize: 24, marginBottom: 15 }}>Get Moving with Almalak</Text>
+              </Animated.View>
+
+              <TouchableOpacity onPress={() => "" }>
+                <Animatable.View style={{ marginTop: 50, paddingHorizontal: 25, flexDirection: 'row' }}>
+                  <Animated.Text style={{ fontSize: 18, color: '#333', fontWeight: '500', position: 'absolute', bottom: 40, left: 20, opacity: 1 }}>Enter Your Mobile Number</Animated.Text>
+                  <Image style={styles.flag} source={require('../assets/bangladesh-flag.png')} />
+
+                  <Animated.View style={{ flex: 2, flexDirection: 'row' }}>
+                    <Text style={{ fontSize: 18, paddingHorizontal: 10, paddingVertical: 5 }} onPress={ () => alert('Country Selector') }>+880</Text>
+                    <TextInput keyboardType="numeric" style={styles.textInput} placeholderTextColor='#666' placeholder="01XXX-XXXXXX" underlineColorAndroid="transparent" onChangeText={setMobile} value={mobile}></TextInput>
+                  </Animated.View>
+                </Animatable.View>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={[styles.button, { opacity: (disabledBtn() == 1 ? 0.7 : 1) }]} onPress={ checkLogin } disabled={disabledBtn() == 1 ? true : false}>
+                <Text style={styles.btnText}>{animating === false ? "Sign In" : "Checking..."}</Text>
+                <ActivityIndicator animating={animating} color='#fff' size="large" style={{ position: "absolute", right: 70, top: 2}} />
+              </TouchableOpacity>
+            </Animated.View>
+            <Text style={{ color: '#444', backgroundColor: '#fff', textAlign: 'center', opacity: 1 }} onPress={ () => forgotPasswordPage() }>Forgot your Password?</Text>
+          </Animatable.View>{ /*Bottom Part*/ }
+
+          <View style={{ flex: 1, height: 20, backgroundColor: '#fff', alignItems: 'center', justifyContent: 'center', borderLeftWidth: 0, borderRightWidth: 0, borderTopColor: '#e8e8ec', borderWidth: 1 }}>
+              <Text style={{ color: "#444" }}>Dont have an account? <Text style={styles.hyperLinkText} onPress={ () => signUpMobilePage() }>Sign Up</Text></Text>
+          </View>
+      </View>
+  )
+}
+
+
+export const CreateAccount = () => {
+  return (
+    <View style={styles.container}>
+      <Text>Create Account Screen</Text>
+      <Button title="Sign Up" onPress={() => alert('todo') }></Button>
+  </View>
+  )
+}
+
+
+// export const onSignIn = () => AsyncStorage.setItem(USER_KEY, "true");
+// export const onSignOut = () => AsyncStorage.removeItem(USER_KEY);
+// export const isSignedIn = () => {
+//   return new Promise((resolve, reject) => {
+//     AsyncStorage.getItem("userToken")
+//       .then(res => {
+//         if (res !== null) {
+//           resolve(true);
+//         } else {
+//           resolve(false);
+//         }
+//       })
+//       .catch(err => reject(err));
+//   });
+// }
+
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    // alignItems: 'center',
+    // justifyContent: 'center',
+    backgroundColor: '#00C497',
+    overflow: 'hidden',
+    //paddingTop: ( Platform.OS === 'ios' ) ? 20 : 0
+  },
+  flag: {
+    height: 24,
+    width: 24,
+    resizeMode: 'contain'
+  },
+  textInput: {
+    fontSize: 20,
+    color: "#333",
+    fontWeight: 'bold',
+    backgroundColor: '#F2FBF8',
+    paddingHorizontal: 15,
+    paddingVertical: 5,
+    height: 35,
+    width: SCREEN_WIDTH - 135,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 3
+  },
+  button: {
+    alignSelf: "center",
+    padding: 10,
+    backgroundColor: "#EF0C14",
+    marginTop: 20,
+    width: SCREEN_WIDTH - 50,
+    borderRadius: 5
+  },
+  btnText: {
+    color: "#fff", 
+    fontWeight: 'bold',
+    textAlign: 'center'
+  },
+  hyperLinkText: {
+    color: '#F53D3D',
+    // textDecorationLine: 'underline',
+    fontWeight: 'bold'
+  }
+});

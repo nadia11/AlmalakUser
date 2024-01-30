@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "439342424593",
+    "project_id": "almalak",
+    "storage_bucket": "almalak.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:439342424593:android:5ba88d51213e603525c7b0",
+        "android_client_info": {
+          "package_name": "com.almalak.driverapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "439342424593-dhpb3n6mn28c9kujdb9qcu40rb9rdbn8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCN35nygwz-xuWvbvpJ4D4J5_76h8yRLq0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "439342424593-dhpb3n6mn28c9kujdb9qcu40rb9rdbn8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:439342424593:android:eec34e978844d3d325c7b0",
+        "android_client_info": {
+          "package_name": "com.almalak.almalakuserapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "439342424593-dhpb3n6mn28c9kujdb9qcu40rb9rdbn8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCN35nygwz-xuWvbvpJ4D4J5_76h8yRLq0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "439342424593-dhpb3n6mn28c9kujdb9qcu40rb9rdbn8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

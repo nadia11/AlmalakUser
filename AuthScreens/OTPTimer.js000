@@ -1,0 +1,47 @@
+import React, { Component } from 'react';
+import { View, Text, StyleSheet, Platform } from 'react-native';
+
+export default function OTPTimer() {
+   const [counter, setCounter] = React.useState(59);
+
+  // Second Attempts
+  // React.useEffect(() => {
+  //   counter > 0 && setInterval(() => setCounter(counter - 1), 1000);
+  // }, []);
+
+  // Second Attempts - Inspection
+  // React.useEffect(() => {
+  //   counter > 0 &&
+  //     setInterval(() => {
+  //       console.log(counter);
+  //       setCounter(counter - 1);
+  //     }, 1000);
+  // }, []);
+
+  // Third Attempts
+//   React.useEffect(() => {
+//     const timer = counter > 0 && setInterval(() => setCounter(counter - 1), 1000);
+//     return () => clearInterval(timer);
+//   }, [counter]);
+
+
+
+  //Suggested by Laurent --- final for OTP
+  React.useEffect(() => {
+    counter > 0 && setTimeout(() => setCounter(counter - 1), 1000);
+  }, [counter]);
+
+
+   return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginVertical: 5 }}>
+         { counter == 0 ? (
+            <Text style={{ color: "#F53D3D", fontWeight: 'bold' }}>OTP Verification number expired</Text>
+         ) : (
+            <View style={{flexDirection:'row', flexWrap:'wrap'}}>
+               <Text style={{ color: "#666" }}>OTP Verification number expire in </Text>
+               <Text style={{fontWeight: "bold", color: "#00A968"}}>{ counter }</Text>
+            </View>
+         )}
+      </View>
+   )
+}
