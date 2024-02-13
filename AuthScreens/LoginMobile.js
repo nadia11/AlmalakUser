@@ -124,7 +124,8 @@ export default class SignUpMobile extends Component {
     for (let i = 0; i <length; i++ ) { 
       OTP += digits[Math.floor(Math.random() * 10)]; 
     }
-    this.setState({digitOtpCode: OTP}); 
+    this.setState({digitOtpCode: OTP});
+    console.log(OTP);
   }
 
   GENERATE_STRING_OTP = (length=10) => { 
@@ -151,12 +152,16 @@ export default class SignUpMobile extends Component {
   }
 
   keyboardWillShow = (event) => {
-      if (Platform.OS == "android") { duration = 100 } else { duration = event.duration }
+    if (Platform.OS == "android") {
+      duration = 100
+    } else {
+      duration = event.duration
+    }
 
     Animated.parallel([
       Animated.timing(this.keyboardHeight, {
         duration: duration + 100,
-        toValue: event.endCoordinate.height + 10
+        toValue: event.endCoordinate?.height ? event.endCoordinate.height + 10 : 0
       }),
       Animated.timing(this.forwardArrowOpacity, {
         duration: duration,
@@ -166,10 +171,10 @@ export default class SignUpMobile extends Component {
         duration: duration,
         toValue: 1
       })
-    ]).start()
+    ]).start();
   }
 
-  keyboardWillHide = (event) => {
+    keyboardWillHide = (event) => {
     if (Platform.OS == "android") { duration = 100 } else { duration = event.duration }
 
     Animated.parallel([

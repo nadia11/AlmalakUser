@@ -40,33 +40,33 @@ export default function VehicleSelectionPanel(props) {
 
   const fareFromDatabase = {
     "Bike": {
-      baseFare: databaseData ? databaseData['Bike'].baseFare : 0, 
-      timeRate: databaseData ? databaseData['Bike'].timeRate : 0, 
-      distanceRatePerKm: databaseData ? databaseData['Bike'].distanceRatePerKm : 0, 
+      baseFare: databaseData ? databaseData['Bike']?.baseFare : 0,
+      timeRate: databaseData ? databaseData['Bike']?.timeRate : 0,
+      distanceRatePerKm: databaseData ? databaseData['Bike']?.distanceRatePerKm : 0,
       surge: 1 
     },
     "Car": {
-      baseFare: databaseData ? databaseData['Car'].baseFare : 0, 
-      timeRate: databaseData ? databaseData['Car'].timeRate : 0, 
-      distanceRatePerKm: databaseData ? databaseData['Car'].distanceRatePerKm : 0, 
+      baseFare: databaseData ? databaseData['Car']?.baseFare : 0,
+      timeRate: databaseData ? databaseData['Car']?.timeRate : 0,
+      distanceRatePerKm: databaseData ? databaseData['Car']?.distanceRatePerKm : 0,
       surge: 1 
     },
     "Micro": {
-      baseFare: databaseData ? databaseData['Micro'].baseFare : 0, 
-      timeRate: databaseData ? databaseData['Micro'].timeRate : 0, 
-      distanceRatePerKm: databaseData ? databaseData['Micro'].distanceRatePerKm : 0, 
+      baseFare: databaseData ? databaseData['Micro']?.baseFare : 0,
+      timeRate: databaseData ? databaseData['Micro']?.timeRate : 0,
+      distanceRatePerKm: databaseData ? databaseData['Micro']?.distanceRatePerKm : 0,
       surge: 1 
     },
     "Pickup": {
-      baseFare: databaseData ? databaseData['Pickup'].baseFare : 0, 
-      timeRate: databaseData ? databaseData['Pickup'].timeRate : 0, 
-      distanceRatePerKm: databaseData ? databaseData['Pickup'].distanceRatePerKm : 0, 
+      baseFare: databaseData ? databaseData['Pickup']?.baseFare : 0,
+      timeRate: databaseData ? databaseData['Pickup']?.timeRate : 0,
+      distanceRatePerKm: databaseData ? databaseData['Pickup']?.distanceRatePerKm : 0,
       surge: 1 
     },
     "Ambulance": {
-      baseFare: databaseData ? databaseData['Ambulance'].baseFare : 0, 
-      timeRate: databaseData ? databaseData['Ambulance'].timeRate : 0, 
-      distanceRatePerKm: databaseData ? databaseData['Ambulance'].distanceRatePerKm : 0, 
+      baseFare: databaseData ? databaseData['Ambulance']?.baseFare : 0,
+      timeRate: databaseData ? databaseData['Ambulance']?.timeRate : 0,
+      distanceRatePerKm: databaseData ? databaseData['Ambulance']?.distanceRatePerKm : 0,
       surge: 1 
     },
   }

@@ -127,7 +127,7 @@
 		</service> -->
 		<!-- End of Push Notification -->
 		
-	  <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyC2ShRUtuWJbz7lBH2dJ8MuLvsJk13a8S8"/>
+	  <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyBhwyrgBSaBZcSW1F_kOrfaKkeXjfFse74"/>
 
     </application>
 </manifest>

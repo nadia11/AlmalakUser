@@ -10,7 +10,7 @@ import DeviceInfo from 'react-native-device-info';
 import NetInfo, { useNetInfo } from "@react-native-community/netinfo";
 import _ from 'lodash';
 import axios from 'axios';
-
+import Geolocation from '@react-native-community/geolocation';
 import { BASE_URL, GOOGLE_API_KEY, SOCKET_IO_URL } from '../config/api';
 import { checkAndroidPermissions, geoErr } from '../config/helperFunctions';
 import { Options } from '../config';
@@ -64,7 +64,7 @@ export default class locationPickerScreen extends Component {
   }
 
   async componentDidMount() {
-    const { isConnected, type, isWifiEnabled } = await NetInfo.fetch();    
+    const { isConnected, type, isWifiEnabled } = await NetInfo.fetch();
     const enableHighAccuracy = (type === "wifi" || undefined) ? false : true;
     this.isLocationEnabled();
 
@@ -76,18 +76,9 @@ export default class locationPickerScreen extends Component {
         longitudeDelta: longitudeDelta
       }
       this.setState({ region: region, userCurrentLocation: region, loading: false });
-    } 
-    // else if(this.props.route?.params?.geometryLat) {
-    //   const region = {
-    //     latitude: this.props.route.params.geometryLat,
-    //     longitude: this.props.route.params.geometryLng,
-    //     latitudeDelta: latitudeDelta,
-    //     longitudeDelta: longitudeDelta
-    //   }
-    //   this.setState({ region: region, userCurrentLocation: region, loading: false });
-    // }
+    }
     else {
-      navigator.geolocation.getCurrentPosition(
+      await Geolocation.getCurrentPosition(
         (position) => {
           const region = {
             latitude: position.coords.latitude,
@@ -108,6 +99,7 @@ export default class locationPickerScreen extends Component {
   }
 
   fetchAddress = () => {
+    console.log(this.state.region.latitude);
     fetch("https://maps.googleapis.com/maps/api/geocode/json?latlng="+ this.state.region.latitude +","+ this.state.region.longitude +"&key="+GOOGLE_API_KEY)
     .then((response) => response.json())
     .then((responseJson) => {
@@ -299,35 +291,17 @@ export default class locationPickerScreen extends Component {
 
         <View style={{ flex: 1 }}>
           {!!this.state.region.latitude && !!this.state.region.longitude && (
-            <MapView style={{ ...styles.map, marginTop: this.state.marginTop }} 
+            <MapView style={{ ...styles.map, marginTop: this.state.marginTop }}
             provider={this.props.provider} customMapStyle={customMapStyle} 
             initialRegion={this.state.region} showsUserLocation={true} showsMyLocationButton={false}
             onMapReady={this.onMapReady} onRegionChange={() => {}} onRegionChangeComplete={this.onRegionChange} ref={map => {this.map = map}}>
 
-              {/* <MapView.Marker.Animated 
-              coordinate={{ "latitude": this.state.region.latitude, "longitude": this.state.region.longitude }} 
-              onPress={e => console.log('onPress', e.nativeEvent)} 
-              onSelect={e => console.log('onSelect', e.nativeEvent)} 
-              onDeselect={e => console.log('onSelect', e.nativeEvent)} 
-              onCalloutPress={e => console.log('onSelect', e.nativeEvent)} 
-              
-              onDragStart={e => console.log('onDragStart', e.nativeEvent)} 
-              onDrag={e => console.log('onDrag', e.nativeEvent)} 
-              onDragEnd={e => console.log('onDragEnd', e.nativeEvent.coordinate)} 
-              draggable={true}
-              title="Current Location" 
-              description=""
-              anchor={{x: 0.5, y: 1}}
-              image={require('../assets/images/markerOrigin.png')}
-              >
-                <Callout style={styles.plainView}><View><Text>This is a plain view</Text></View></Callout>
-              </MapView.Marker.Animated> */}
             </MapView>
           )}
           
-          <MapView.Marker.Animated coordinate={{ "latitude": this.state.region.latitude, "longitude": this.state.region.longitude }} style={styles.mapMarkerContainer} anchor={{x: 0.5, y: 1}}>
-            <Image source={require('../assets/images/markerOrigin.png')} resizeMode="contain" style={{ width: 40, height: 40 }} />
-          </MapView.Marker.Animated>
+          {/*<MapView.Marker.Animated coordinate={{ "latitude": this.state.region.latitude, "longitude": this.state.region.longitude }} style={styles.mapMarkerContainer} anchor={{x: 0.5, y: 1}}>*/}
+          {/*  <Image source={require('../assets/images/markerOrigin.png')} resizeMode="contain" style={{ width: 40, height: 40 }} />*/}
+          {/*</MapView.Marker.Animated>*/}
         </View>
 
         {this.state.region.latitude !== 0 && (

@@ -10,10 +10,11 @@ import axios from 'axios';
 
 import MapView, { Marker, PROVIDER_GOOGLE, AnimatedRegion, Animated, Polyline } from 'react-native-maps';
 // import Geocoder from 'react-native-geocoder';
-navigator.geolocation = require('@react-native-community/geolocation');
+//navigator.geolocation = require('@react-native-community/geolocation');
+import Geolocation from '@react-native-community/geolocation';
 import _ from 'lodash';
 import PolyLine from '@mapbox/polyline';
-import socketIO from 'socket.io-client';
+import {io} from 'socket.io-client';
 import Feather from 'react-native-vector-icons/Feather';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -126,7 +127,7 @@ export default class MapScreen extends Component {
     if (Platform.OS === "ios") { granted = true; } else { granted = await checkAndroidPermissions(); }
 
     if (granted){
-      navigator.geolocation.getCurrentPosition(
+      Geolocation.getCurrentPosition(
         position => {
           this.setState({
             latitude: position.coords.latitude,
@@ -278,11 +279,11 @@ export default class MapScreen extends Component {
     try {
       const response = await fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${this.state.latitude},${this.state.longitude}&destination=place_id:${destinationPlaceId}&key=${GOOGLE_API_KEY}`);
       const json = await response.json();
-
+      console.log("points"+json);
       if(this.state.pickUpLocation && json.routes.length !==0) {
-        const points = PolyLine.decode(json.routes[0].overview_polyline.points);
-        
-        const destinationCoords = points.map(point => {
+        const points = PolyLine.decode(json?.routes[0]?.overview_polyline?.points);
+
+        const destinationCoords = points?.map(point => {
           return { latitude: point[0], longitude: point[1] }
         });
 
@@ -303,7 +304,7 @@ export default class MapScreen extends Component {
         this.map.fitToCoordinates(destinationCoords, { edgePadding: {top: getPixelSize(20), bottom: getPixelSize(150), left: getPixelSize(20), right: getPixelSize(20)}, animated: true });
         this.getRouteDistance(destinationPlaceId);
       }
-    } 
+    }
     catch (error) { console.log(error) }
   }
 
@@ -340,11 +341,17 @@ export default class MapScreen extends Component {
   }
 
   async requestDriver(distance, duration, fare, paymentMethod, promoCode) {
-    this.socket = socketIO.connect(SOCKET_IO_URL);
+    this.socket = io("https://71a6-27-147-170-201.ngrok-free.app");
     this.socket.on('connect', () => {
       console.log('Someone sent Request for a . Socket id: '+this.socket.id);
+      this.socket.emit('test', { message: 'Hello Server' });
     });
-    
+    this.socket.on('error', (error) => {
+      console.error('Socket error:', error);
+    });
+    this.socket.on('connect_error', (error) => {
+      console.error('Connection error:', error);
+    });
     if(this.state.tripNumber === "") {
       //console.log("mobile: "+this.state.mobile +"pickUpLocation: "+ this.state.pickUpLocation +"destination: "+ this.state.destination  +"latitude: "+ this.state.latitude  +"longitude: "+ this.state.longitude  +"distance: "+ distance  +"duration: "+ duration  +"fare: "+ fare  +"paymentMethod: "+ paymentMethod  +"promoCode: "+ promoCode);
 
@@ -376,12 +383,15 @@ export default class MapScreen extends Component {
               destinationPlaceId: this.state.destinationPlaceId
             }
           });
-          
-          this.socket.emit('Request', {
-            routeResponse: this.state.routeResponse, 
-            tripNumber: response.data.trip_number, 
+
+          this.socket.emit('taxiRequest', {
+            routeResponse: this.state.routeResponse,
+            tripNumber: response.data.trip_number,
             destinationPlaceId: this.state.destinationPlaceId
+          }, (response) => {
+            console.log('Server responded:', response);
           });
+
           //console.log("Mobile: "+this.state.mobile+", trip_from: "+this.state.pickUpLocation+", trip_to: "+this.state.destination+", startLocationLat: "+this.state.latitude+ ", startLocationLong:"+ this.state.longitude+", distance: "+ this.state.distance.text+", duration: "+ this.state.duration.text);
         }
       })
@@ -627,25 +637,20 @@ export default class MapScreen extends Component {
             <ActivityIndicator size="large" color={Colors.BUTTON_COLOR} />
           </View>
         )}
-        
-        {this.state.region.latitude !== 0 && (
-          <MapView style={styles.mapStyle} provider={PROVIDER_GOOGLE} customMapStyle={customMapStyle}
-            initialRegion={this.state.region}
-            rotateEnabled={false} zoomEnabled={true} zoomControlEnabled={true} showsCompass={true} scrollEnabled={true}
-            showsUserLocation={true} followsUserLocation={true} showsMyLocationButton={false} 
-            loadingEnabled={true} loadingIndicatorColor="red" loadingBackgroundColor="#eeeeee"
-            onPress={() => this.setState({ locationButton: true })}
-            onMapReady={e => console.log("Map is ready")} onRegionChange={(region) => {}} ref={map => {this.map = map}}
+        {this.state.latitude !== 0 && (
+            <MapView style={styles.mapStyle} provider={PROVIDER_GOOGLE}
+                     region={{ latitude: this.state.latitude, longitude: this.state.longitude, latitudeDelta: this.state.latitudeDelta, longitudeDelta: this.state.longitudeDelta }}
+                     showsUserLocation={true} followsUserLocation={true} showsMyLocationButton={true}
+                     loadingEnabled={false} loadingIndicatorColor="#666666" loadingBackgroundColor="#eeeeee"
+                     zoomEnabled={true} zoomControlEnabled={true} showsTraffic={this.state.showsTraffic}
+                     showsCompass={true} rotateEnabled={false} ref={map => {this.map = map}}
             >
-            <Polyline coordinates={this.state.destinationCoords} strokeWidth={3} strokeColor="#EF0C14" />
-            {routeDirection}
-            {driverMarker}
-            
-            {(this.state.initialBottomPanelShow === true || this.state.selectVehicleModal === true || this.state.lookingForDriver === true) && (
-              <NearbyDrivers LatLong={{ latitude: this.state.latitude, longitude: this.state.longitude }} />
-            )}
-          </MapView>
+              {this.state.pointCoords && <Polyline coordinates={this.state.pointCoords} strokeWidth={3} strokeColor="red" /> }
+              {/*/!*{endMarker}*!/*/}
+              {/*{startMarker}*/}
+            </MapView>
         )}
+
 
         {selectVehicleModal}
         {findingDriver}
