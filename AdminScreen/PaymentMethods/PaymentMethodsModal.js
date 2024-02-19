@@ -117,7 +117,7 @@ export default function PaymentMethodsModal(props) {
               <FontAwesome style={styles.vehicleIcon} size={30} name="paypal" color={Colors.ICON_COLOR} />
               <View>
                 <Text style={styles.title}>Paypal</Text>
-                <Text style={styles.subTitle}>info@almalak.com</Text>
+                <Text style={styles.subTitle}>info@uder.com</Text>
               </View>
               {paymentType === "Paypal" ? (<Feather name="check-square" size={30} color={Colors.PRIMARY} style={styles.rightIcon} />) : null}
           </TouchableOpacity>

@@ -73,9 +73,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.almalakuserapp"
+    namespace "com.uderuserapp"
     defaultConfig {
-        applicationId "com.almalakuserapp"
+        applicationId "com.uderuserapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 2
