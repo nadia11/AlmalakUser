@@ -84,7 +84,7 @@ export const OTPVerification = (props) => {
 
     await axios.post(SMS_API_URL, {
       to_number: mobile,
-      message: "Your OTP is "+OTP_CODE+" to login Almalak. This OTP will be expired within 1 minutes."
+      message: "Your OTP is "+OTP_CODE+" to login Uder. This OTP will be expired within 1 minutes."
     })
     .then(res => { 
       if(sms_status_array[res.data]) { 

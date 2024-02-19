@@ -139,7 +139,7 @@ export const SignIn = (props) => {
           <Animatable.View animation="slideInUp" iterationCount={1} style={{ paddingBottom: 40, backgroundColor: "#fff", flex: 6 }}>
             <Animated.View style={{ height: 250, backgroundColor: 'white' }}>
               <Animated.View style={{ opacity: 1, alignItems: 'flex-start', paddingHorizontal: 25, marginTop: 50 }}>
-                <Text style={{ fontSize: 24, marginBottom: 15 }}>Get Moving with Almalak</Text>
+                <Text style={{ fontSize: 24, marginBottom: 15 }}>Get Moving with Uder</Text>
               </Animated.View>
 
               <TouchableOpacity onPress={() => "" }>

@@ -185,7 +185,7 @@ export const SignUpForm = (props) => {
                 <TextInput style={styles.textInput} placeholder="Referral Mobile (Optional)" placeholderTextColor="rgba(0,0,0,.5)" keyboardType="numeric" returnKeyType="go" autoCorrect={false} underlineColorAndroid="transparent" onChangeText={val => setReferralMobile( val )} value={referralMobile} maxLength={13} ref={referralMobRef} />
               </View>
 
-              <Text style={{ fontSize: 14, lineHeight: 20, color: '#666', paddingVertical: 10, paddingHorizontal: 20, textAlign: 'justify' }}>By tapping continue, I confirm that I have read and agree to the <Text style={styles.hyperLinkText} onPress={ ()=> props.navigation.navigate('TermsAndConditionsModal') }>Terms & Conditions</Text> and <Text style={styles.hyperLinkText} onPress={ ()=> props.navigation.navigate('PrivacyPolicyModal') }>Privacy Policy</Text> of Almalak</Text>
+              <Text style={{ fontSize: 14, lineHeight: 20, color: '#666', paddingVertical: 10, paddingHorizontal: 20, textAlign: 'justify' }}>By tapping continue, I confirm that I have read and agree to the <Text style={styles.hyperLinkText} onPress={ ()=> props.navigation.navigate('TermsAndConditionsModal') }>Terms & Conditions</Text> and <Text style={styles.hyperLinkText} onPress={ ()=> props.navigation.navigate('PrivacyPolicyModal') }>Privacy Policy</Text> of Uder</Text>
 
               <TouchableOpacity style={[styles.button, { opacity: (_disabledBtn() == 1 ? 0.7 : 1) }]} onPress={ _handleSubmit } disabled={_disabledBtn() == 1 ? true : false}>
                 <Text style={styles.btnText}>{animating === false ? "Complete Registration" : "Submitting..."}</Text>

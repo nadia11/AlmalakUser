@@ -5,7 +5,7 @@ export default function Noticeboard(props) {
     return (
       <View style={[styles.sectionContainer, {borderBottomColor: props.color, borderTopColor: props.color}]}>
         <Text style={{fontSize: 22, textAlign: "justify", marginBottom: 10}}>
-          <Text style={{fontWeight: 'bold', color: 'red'}}>Al Malak</Text>-এর সকল লভ্যাংশ করোনা দুর্যোগ মোকাবেলায় সরকারি তহবিলে অনুদান হিসেবে প্রদান করা হবে।
+          <Text style={{fontWeight: 'bold', color: 'red'}}>Uder </Text>-এর সকল লভ্যাংশ করোনা দুর্যোগ মোকাবেলায় সরকারি তহবিলে অনুদান হিসেবে প্রদান করা হবে।
         </Text>
         <Text style={{fontSize: 22, textAlign: "justify", fontWeight: 'bold'}}>
           আসুন সবাই সবার পাশে দাড়াই।

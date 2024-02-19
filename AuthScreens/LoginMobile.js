@@ -41,7 +41,7 @@ export default class SignUpMobile extends Component {
 
     axios.post(SMS_API_URL, {
       to_number: RECEIVER_NUMBER,
-      message: "Your O.TP is "+OTP_CODE+" to login Almalak. This O.TP will be expired within 1 minutes."
+      message: "Your O.TP is "+OTP_CODE+" to login Uder. This O.TP will be expired within 1 minutes."
     })
     .then(res => {
       console.log("OPT to SMS: "+res.data);

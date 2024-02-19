@@ -219,9 +219,9 @@ export const MenuScreen = (props) => {
           <Feather name="chevron-right" size={15} color={Colors.TEXT_PRIMARY} style={styles.rightIcon} />
         </TouchableOpacity>
 
-		    <TouchableOpacity onPress={() => Linking.openURL('https://www.facebook.com/Almalak-101398854854477')} style={styles.listItem}>
+		    <TouchableOpacity onPress={() => Linking.openURL('https://www.facebook.com/Uder-101398854854477')} style={styles.listItem}>
           <MaterialCommunityIcons name="facebook" size={25} color={Colors.ICON_COLOR} style={styles.leftIcon} />
-          <Text style={styles.listItemText}>Almalak Page</Text>
+          <Text style={styles.listItemText}>Uder Page</Text>
           <Feather name="chevron-right" size={15} color={Colors.TEXT_PRIMARY} style={styles.rightIcon} />
         </TouchableOpacity>
 

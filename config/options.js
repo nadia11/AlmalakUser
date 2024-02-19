@@ -16,7 +16,7 @@ export const APP_OPTIONS = {
     },
     HEADER_LOGO: (<Image style={{ width: 45, height: 45, marginRight: 15, resizeMode: "contain" }} source={require('../assets/logo.png')} />),
     VersionCode: DeviceInfo.getVersion(),
-    AppName: "Almalak",
+    AppName: "Uder",
     NETWORK_ERROR_MESSAGE: "Something went wrong. Please try again.",
 }
 
