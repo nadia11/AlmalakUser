@@ -341,7 +341,7 @@ export default class MapScreen extends Component {
   }
 
   async requestDriver(distance, duration, fare, paymentMethod, promoCode) {
-    this.socket = io("https://3feb-27-147-170-201.ngrok-free.app");
+    this.socket = io(SOCKET_IO_URL);
     this.socket.on('connect', () => {
       console.log('Someone sent Request for a . Socket id: '+this.socket.id);
       this.socket.emit('test', { message: 'Hello Server' });
