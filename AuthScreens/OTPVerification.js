@@ -19,10 +19,10 @@ export const OTPVerification = (props) => {
   // const mobile = '';
   // const OTP_CODE = 123456;
   // const redirectScreen = '';
-  const { mobile, callingCode, OTP_CODE, redirectScreen } = props.route.params;
+  const { mobile, callingCode, OTP_ID, redirectScreen } = props.route.params;
   // {JSON.stringify(mobile)}
 
-  const [counter, setCounter] = React.useState(59);
+  const [counter, setCounter] = React.useState(15);
 
   const [enteredOTP, setEnteredOTP] = React.useState(0);
   const [userToken, setUserToken] = React.useState(null);
@@ -46,55 +46,65 @@ export const OTPVerification = (props) => {
   // }, []);
 
 
-  const verify_otp = () => {
+   const verify_otp = () => {
     setAnimating(true);
+     axios.post(SMS_API_URL+"verify-otp", {
+       otp_id: OTP_ID,
+       otp_code: enteredOTP
+     })
+         .then(res => {
+           console.log("Status: "+res?.data?.status);
+           //if(sms_status_array[res.data]) { Alert.alert(sms_status_array[res.data] + " Please contact to App Provider."); }
+           if(res?.data?.status && res?.data?.status==="APPROVED"){
+             setOtpVerifyingSpinner(true);
 
-    if(OTP_CODE == enteredOTP) {
-      setOtpVerifyingSpinner(true);
+             setTimeout(() => {
+               setOtpVerifyingSpinner(false);
+               setOtpVerifySuccess(true);
 
-      setTimeout(() => {
-        setOtpVerifyingSpinner(false);
-        setOtpVerifySuccess(true);
-        
-        setTimeout( async () => {
-          if(redirectScreen === "App"){
-            try {
-              await AsyncStorage.setItem('userToken', '1');
-              setUserToken('1');
-              signInToken(); /*This for auto redirect to home page & refresh*/
-              props.navigation.navigate('App');
-              setOtpVerifySuccess(false);
-            } catch (error) { console.error(error); }
-          }
-          else if(redirectScreen === "SignUpForm"){
-            props.navigation.navigate('SignUpForm', { mobile: mobile, OTP_CODE: enteredOTP })
-            setOtpVerifySuccess(false);
-          }
-        }, 500);
-      }, 3000);
-    }
-    else {
-      Alert.alert("Error", "Wrong OTP Code entered. Please Try Again");
-    }
+               setTimeout( async () => {
+                 if(redirectScreen === "App"){
+                   try {
+                     await AsyncStorage.setItem('userToken', '1');
+                     setUserToken('1');
+                     signInToken(); /*This for auto redirect to home page & refresh*/
+                     props.navigation.navigate('App');
+                     setOtpVerifySuccess(false);
+                   } catch (error) { console.error(error); }
+                 }
+                 else if(redirectScreen === "SignUpForm"){
+                   props.navigation.navigate('SignUpForm', { mobile: mobile, OTP_CODE: enteredOTP })
+                   setOtpVerifySuccess(false);
+                 }
+               }, 500);
+             }, 3000);
+           }
+           else {
+             Alert.alert("Error", "Wrong OTP Code entered. Please Try Again");
+           }
+         })
+         .catch((error) => {
+           console.log("Submitting Error: "+error);
+           ToastAndroid.show(Options.APP_OPTIONS.NETWORK_ERROR_MESSAGE, ToastAndroid.SHORT);
+          });
   }
 
 
   const resendOTP = async () => {
     let sms_status_array = {1002 : "Sender Id/Masking Not Found", 1003 : "API Not Found", 1004 : "SPAM Detected", 1005 : "Internal Error", 1006 : "Internal Error", 1007 : "Balance Insufficient", 1008 : "Message is empty", 1009 : "Message Type Not Set (text/unicode)", 1010 : "Invalid User & Password", 1011 : "Invalid User Id" }
 
-    await axios.post(SMS_API_URL, {
-      to_number: mobile,
-      message: "Your OTP is "+OTP_CODE+" to login Uder. This OTP will be expired within 1 minutes."
+    axios.post(SMS_API_URL+"resend-otp", {
+      otp_id: OTP_ID,
     })
     .then(res => { 
-      if(sms_status_array[res.data]) { 
-        Alert.alert(sms_status_array[res.data] + " Please contact to App Provider."); 
-      }
-      setCounter(59);
-      ToastAndroid.showWithGravity("OTP Verification Code Sent again", ToastAndroid.LONG, ToastAndroid.BOTTOM);
+      // if(sms_status_array[res.data]) {
+      //   Alert.alert(sms_status_array[res.data] + " Please contact to App Provider.");
+      // }
+      // setCounter(59);
+      // ToastAndroid.showWithGravity("OTP Verification Code Sent again", ToastAndroid.LONG, ToastAndroid.BOTTOM);
     })
     .catch((error) => {
-      console.log("Submitting Error: "+error); 
+      console.log("Error resending otp: "+error);
       ToastAndroid.show(Options.APP_OPTIONS.NETWORK_ERROR_MESSAGE, ToastAndroid.SHORT); 
     });
   }
@@ -109,7 +119,7 @@ export const OTPVerification = (props) => {
       
       <View style={{ alignItems: 'center' }}>
         <Text style={{ color: '#555', marginBottom: 10, fontSize: 18, textAlign: 'center' }}>Enter 6-digit verification code sent to you at <Text style={{ fontWeight: 'bold', color: '#333' }}>{"+88"+mobile}</Text></Text>
-        { console.log("OTP: "+OTP_CODE+" ---- Entered: "+enteredOTP) }
+        { console.log("OTP: "+OTP_ID+" ---- Entered: "+enteredOTP) }
 
         <View style={styles.fieldContainer}>
 			  {/* <OtpInputs getOtp={(otp) => setEnteredOTP(otp)} SMSReceived={sMSReceived} /> */}
@@ -125,9 +135,9 @@ export const OTPVerification = (props) => {
 			  />
         </View>
 
-        <TouchableOpacity style={[styles.button, { opacity: (disabledBtn() == 1 ? 0.7 : 1) }]} onPress={ verify_otp } disabled={disabledBtn() == 1 ? true : false}>
-          <Text style={styles.btnText}>Verify & Proceed</Text>
-        </TouchableOpacity>
+        {/*<TouchableOpacity style={[styles.button, { opacity: (disabledBtn() == 1 ? 0.7 : 1) }]} onPress={ verify_otp } disabled={disabledBtn() == 1 ? true : false}>*/}
+        {/*  <Text style={styles.btnText}>Verify & Proceed</Text>*/}
+        {/*</TouchableOpacity>*/}
       </View>
 
       <View style={{ flexDirection: "row", justifyContent: 'space-around', alignItems: 'flex-start', marginTop: 0 }}>

@@ -26,6 +26,7 @@ export default class SignUpMobile extends Component {
       userToken: "",
       digitOtpCode: '',
       // callingCode: "",
+      otpId: null,
       isLoading: false,
       animating: false,
       country: {
@@ -35,22 +36,26 @@ export default class SignUpMobile extends Component {
     }
     this.getUserData();
   }
-
   sendOTP(RECEIVER_NUMBER, OTP_CODE) {
     let sms_status_array = {1002 : "Sender Id/Masking Not Found", 1003 : "API Not Found", 1004 : "SPAM Detected", 1005 : "Internal Error", 1006 : "Internal Error", 1007 : "Balance Insufficient", 1008 : "Message is empty", 1009 : "Message Type Not Set (text/unicode)", 1010 : "Invalid User & Password", 1011 : "Invalid User Id" }
 
-    axios.post(SMS_API_URL, {
+    axios.post(SMS_API_URL + 'send-sms', {
       to_number: RECEIVER_NUMBER,
-      message: "Your O.TP is "+OTP_CODE+" to Sign Up Uder. This O.TP will be expired within 1 minutes."
+      message: "Your O.TP is "+OTP_CODE+" to login Uder. This O.TP will be expired within 1 minutes."
     })
-    .then(res => { 
-      console.log("OPT to SMS: "+res.data);
-      // if(sms_status_array[res.data]) { alert(sms_status_array[res.data] + " Please contact to App Provider."); }
-    })
-    .catch((error) => {
-      console.log("Submitting Error: "+error); 
-      ToastAndroid.show(Options.APP_OPTIONS.NETWORK_ERROR_MESSAGE, ToastAndroid.SHORT); 
-    });
+        .then(response => {
+          if (response.data && response.data.otp_id) {
+            console.log("OTP ID:", response.data.otp_id);
+            this.setState({ otpId: response.data.otp_id });
+          } else {
+            console.error("OTP ID not found in response:", response.data);
+            // Handle the case where OTP ID is not found in the response
+          }
+        })
+        .catch((error) => {
+          console.log("Submitting Error: "+error);
+          ToastAndroid.show(Options.APP_OPTIONS.NETWORK_ERROR_MESSAGE, ToastAndroid.SHORT);
+        });
   }
 
   getUserData = async () => {
@@ -130,8 +135,18 @@ export default class SignUpMobile extends Component {
       OTP += string[Math.floor(Math.random() * string.length)];
     } 
     this.setState({stringOtpCode: OTP.toUpperCase()});
-  } 
-
+  }
+  componentDidUpdate(prevProps, prevState) {
+    // Check if yourVariable is set
+    if (this.state.otpId !== prevState.otpId)  {
+      this.props.navigation.navigate('OTPVerification', {
+        mobile: this.MOBILE_WITH_ZERO(this.state.mobileNumber),
+        callingCode: this.state.country.callingCode,
+        OTP_ID: this.state.otpId,
+        redirectScreen: "SignUpForm"
+      });
+      this.setState({ animating: false });}
+  }
 
   UNSAFE_componentWillMount() {
     // this.keyboardWillShowListener = Keyboard.addListener('keyboardWillShow', this.keyboardWillShow)
