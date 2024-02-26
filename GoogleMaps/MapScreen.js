@@ -444,9 +444,9 @@ export default class MapScreen extends Component {
         let diff_in_meters = getLatLonDiffInMeters(this.state.latitude, this.state.longitude, driverLatitude, driverLongitude);
 
         if(diff_in_meters <= 200){
-          Alert.alert('Driver is in 200 meter', 'Driver is around 200 meters from your current location');
+         // Alert.alert('Driver is in 200 meter', 'Driver is around 200 meters from your current location');
         } else if(diff_in_meters <= 50){
-          Alert.alert('Driver is almost near', 'Driver is around 50 meters from your current location');
+        //  Alert.alert('Driver is almost near', 'Driver is around 50 meters from your current location');
         }
       }
     });
