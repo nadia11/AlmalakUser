@@ -6,7 +6,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from "react-native-vector-icons/Feather";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import { createMaterialBottomTabNavigator } from 'react-native-paper/react-navigation';
 // import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerItem, } from '@react-navigation/drawer';
 // import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 //import DrawerNavigator from '../AdminScreen/DrawerNavigator';
@@ -42,7 +42,7 @@ function FeedStackScreen() {
     </FeedStack.Navigator>
   );
 }
- 
+
 export function DrawerButton() {
   const [mobile, setMobile] = React.useState('');
   const [userName, setUserName] = React.useState('');
@@ -53,7 +53,7 @@ export function DrawerButton() {
       const userName = await AsyncStorage.getItem('userName')
       const mobile = await AsyncStorage.getItem('mobile')
       const userPhoto = await AsyncStorage.getItem('userPhoto')
-      
+
       if(userName !== null) { setUserName( userName ); }
       if(mobile !== null) { setMobile( mobile ); }
       if(userPhoto !== null) { setUserPhoto( userPhoto ); }

@@ -68,14 +68,14 @@ export default class SignUpMobile extends Component {
       if(userToken !== null) { this.setState({ userToken: userToken }); }
       if(mobile !== null) { this.setState({ mobileNumber: mobile }); }
       if(callingCode !== null) { this.setState({ callingCode: callingCode }); }
-    } 
+    }
     catch (error) { console.error(error); }
   }
-  
+
   checkLogin = async () => {
     this.setState({ animating: true });
     console.log('first');
-    
+
     if(this.state.mobileNumber === "") {
       Alert.alert('Error', 'Must provide a Mobile number to log in.', [{ text: "OK" }]);
       this.setState({ animating: false });
@@ -92,7 +92,7 @@ export default class SignUpMobile extends Component {
 
           //Send OTP Message to Entered Mobile Number
           //let GENERATE_DIGIT_OTP = Math.floor(Math.random() * 1000000) + 1;
-           this.sendOTP(this.MOBILE_WITH_ZERO(this.state.mobileNumber), this.state.digitOtpCode);
+           //this.sendOTP(this.MOBILE_WITH_ZERO(this.state.mobileNumber), this.state.digitOtpCode);
           console.log("digitOtpCode: "+this.state.digitOtpCode);
           this.setState({ userToken: '1' });
 
@@ -101,6 +101,15 @@ export default class SignUpMobile extends Component {
             await AsyncStorage.setItem('callingCode', "+880");
             await AsyncStorage.setItem('userName', responseJson.user_name);
             await AsyncStorage.setItem('userImage', responseJson.user_image);
+            this.setState({ animating: false });
+              this.props.navigation.navigate('OTPVerification', {
+                mobile: this.MOBILE_WITH_ZERO(this.state.mobileNumber),
+                callingCode: this.state.country.callingCode,
+                OTP_ID: this.state.otpId,
+                redirectScreen: "App"
+              });
+
+            //props.navigation.navigate('App');
           } catch (error) { console.error(error); }
         }
         else if(responseJson.code === 501){
@@ -109,32 +118,32 @@ export default class SignUpMobile extends Component {
         }
       })
       .catch((error) => {
-        console.log("Submitting Error: "+error); 
+        console.log("Submitting Error: "+error);
         ToastAndroid.show(Options.APP_OPTIONS.NETWORK_ERROR_MESSAGE, ToastAndroid.SHORT);
       });
     }
   }
 
-  GENERATE_DIGIT_OTP = (length = 6) => { 
+  GENERATE_DIGIT_OTP = (length = 6) => {
     //let RandOTP = Math.floor(Math.random() * 1000000) + 1;
-    var digits = '0123456789'; 
-    let OTP = ''; 
-    for (let i = 0; i <length; i++ ) { 
-      OTP += digits[Math.floor(Math.random() * 10)]; 
+    var digits = '0123456789';
+    let OTP = '';
+    for (let i = 0; i <length; i++ ) {
+      OTP += digits[Math.floor(Math.random() * 10)];
     }
     this.setState({digitOtpCode: OTP});
     console.log(OTP);
   }
 
-  GENERATE_STRING_OTP = (length=10) => { 
-    var string = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'; 
-    let OTP = ''; 
+  GENERATE_STRING_OTP = (length=10) => {
+    var string = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    let OTP = '';
     for (let i = 0; i <length; i++ ) {
       OTP += string[Math.floor(Math.random() * string.length)];
-    } 
+    }
     this.setState({stringOtpCode: OTP.toUpperCase()});
   }
-    
+
 
   UNSAFE_componentWillMount() {
     this.loginHeight = new Animated.Value(150)
@@ -148,17 +157,17 @@ export default class SignUpMobile extends Component {
     this.forwardArrowOpacity = new Animated.Value(0)
     this.borderBottomWidth = new Animated.Value(0)
   }
-  componentDidUpdate(prevProps, prevState) {
-    // Check if yourVariable is set
-    if (this.state.otpId !== prevState.otpId)  {
-      this.props.navigation.navigate('OTPVerification', {
-      mobile: this.MOBILE_WITH_ZERO(this.state.mobileNumber),
-      callingCode: this.state.country.callingCode,
-      OTP_ID: this.state.otpId,
-      redirectScreen: "App"
-    });
-      this.setState({ animating: false });}
-  }
+  // componentDidUpdate(prevProps, prevState) {
+  //   // Check if yourVariable is set
+  //   if (this.state.otpId !== prevState.otpId)  {
+  //     this.props.navigation.navigate('OTPVerification', {
+  //     mobile: this.MOBILE_WITH_ZERO(this.state.mobileNumber),
+  //     callingCode: this.state.country.callingCode,
+  //     OTP_ID: this.state.otpId,
+  //     redirectScreen: "App"
+  //   });
+  //     this.setState({ animating: false });}
+  // }
   keyboardWillShow = (event) => {
     if (Platform.OS == "android") {
       duration = 100
@@ -271,7 +280,7 @@ export default class SignUpMobile extends Component {
     return (
       <View style={styles.container}>
         <CustomStatusBar />
-      
+
         <ImageBackground source={require('../assets/login-bg.jpeg')} style={{ flex: 6, justifyContent: 'flex-start', alignItems: 'center', resizeMode: 'contain', height: SCREEN_HEIGHT-200, width: SCREEN_WIDTH, marginBottom: 120, paddingTop: 55 }}>
           <Animatable.View animation="zoomIn" iterationCount={1} style={{ height: 120, width: 120, alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff', padding: 15, borderRadius: 5, marginTop: 0 }}>
             <Image style={{ height: 130, width: 130, resizeMode: 'contain' }} source={require('../assets/logo.png')} />
@@ -341,7 +350,7 @@ const styles = StyleSheet.create({
     borderRadius: 5
   },
   btnText: {
-    color: "#fff", 
+    color: "#fff",
     fontWeight: 'bold',
     textAlign: 'center',
     fontSize: 18

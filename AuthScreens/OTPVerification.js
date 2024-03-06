@@ -47,46 +47,70 @@ export const OTPVerification = (props) => {
 
 
    const verify_otp = () => {
-    setAnimating(true);
-     axios.post(SMS_API_URL+"verify-otp", {
-       otp_id: OTP_ID,
-       otp_code: enteredOTP
-     })
-         .then(res => {
-           console.log("Status: "+res?.data?.status);
-           //if(sms_status_array[res.data]) { Alert.alert(sms_status_array[res.data] + " Please contact to App Provider."); }
-           if(res?.data?.status && res?.data?.status==="APPROVED"){
-             setOtpVerifyingSpinner(true);
+       setAnimating(true);
+               setOtpVerifyingSpinner(true);
 
-             setTimeout(() => {
-               setOtpVerifyingSpinner(false);
-               setOtpVerifySuccess(true);
+               setTimeout(() => {
+                 setOtpVerifyingSpinner(false);
+                 setOtpVerifySuccess(true);
 
-               setTimeout( async () => {
-                 if(redirectScreen === "App"){
-                   try {
-                     await AsyncStorage.setItem('userToken', '1');
-                     setUserToken('1');
-                     signInToken(); /*This for auto redirect to home page & refresh*/
-                     props.navigation.navigate('App');
+                 setTimeout( async () => {
+                   if(redirectScreen === "App"){
+                     try {
+                       await AsyncStorage.setItem('userToken', '1');
+                       setUserToken('1');
+                       signInToken(); /*This for auto redirect to home page & refresh*/
+                       props.navigation.navigate('App');
+                       setOtpVerifySuccess(false);
+                     } catch (error) { console.error(error); }
+                   }
+                   else if(redirectScreen === "SignUpForm"){
+                     props.navigation.navigate('SignUpForm', { mobile: mobile, OTP_CODE: enteredOTP })
                      setOtpVerifySuccess(false);
-                   } catch (error) { console.error(error); }
-                 }
-                 else if(redirectScreen === "SignUpForm"){
-                   props.navigation.navigate('SignUpForm', { mobile: mobile, OTP_CODE: enteredOTP })
-                   setOtpVerifySuccess(false);
-                 }
-               }, 500);
-             }, 3000);
-           }
-           else {
-             Alert.alert("Error", "Wrong OTP Code entered. Please Try Again");
-           }
-         })
-         .catch((error) => {
-           console.log("Submitting Error: "+error);
-           ToastAndroid.show(Options.APP_OPTIONS.NETWORK_ERROR_MESSAGE, ToastAndroid.SHORT);
-          });
+                   }
+                 }, 500);
+               }, 3000);
+
+
+     // axios.post(SMS_API_URL+"verify-otp", {
+     //   otp_id: OTP_ID,
+     //   otp_code: enteredOTP
+     // })
+     //     .then(res => {
+     //       console.log("Status: "+res?.data?.status);
+     //       //if(sms_status_array[res.data]) { Alert.alert(sms_status_array[res.data] + " Please contact to App Provider."); }
+     //       if(res?.data?.status && res?.data?.status==="APPROVED"){
+     //         setOtpVerifyingSpinner(true);
+     //
+     //         setTimeout(() => {
+     //           setOtpVerifyingSpinner(false);
+     //           setOtpVerifySuccess(true);
+     //
+     //           setTimeout( async () => {
+     //             if(redirectScreen === "App"){
+     //               try {
+     //                 await AsyncStorage.setItem('userToken', '1');
+     //                 setUserToken('1');
+     //                 signInToken(); /*This for auto redirect to home page & refresh*/
+     //                 props.navigation.navigate('App');
+     //                 setOtpVerifySuccess(false);
+     //               } catch (error) { console.error(error); }
+     //             }
+     //             else if(redirectScreen === "SignUpForm"){
+     //               props.navigation.navigate('SignUpForm', { mobile: mobile, OTP_CODE: enteredOTP })
+     //               setOtpVerifySuccess(false);
+     //             }
+     //           }, 500);
+     //         }, 3000);
+     //       }
+     //       else {
+     //         Alert.alert("Error", "Wrong OTP Code entered. Please Try Again");
+     //       }
+     //     })
+     //     .catch((error) => {
+     //       console.log("Submitting Error: "+error);
+     //       ToastAndroid.show(Options.APP_OPTIONS.NETWORK_ERROR_MESSAGE, ToastAndroid.SHORT);
+     //      });
   }
 
 
@@ -96,7 +120,7 @@ export const OTPVerification = (props) => {
     axios.post(SMS_API_URL+"resend-otp", {
       otp_id: OTP_ID,
     })
-    .then(res => { 
+    .then(res => {
       // if(sms_status_array[res.data]) {
       //   Alert.alert(sms_status_array[res.data] + " Please contact to App Provider.");
       // }
@@ -105,7 +129,7 @@ export const OTPVerification = (props) => {
     })
     .catch((error) => {
       console.log("Error resending otp: "+error);
-      ToastAndroid.show(Options.APP_OPTIONS.NETWORK_ERROR_MESSAGE, ToastAndroid.SHORT); 
+      ToastAndroid.show(Options.APP_OPTIONS.NETWORK_ERROR_MESSAGE, ToastAndroid.SHORT);
     });
   }
 
@@ -116,7 +140,7 @@ export const OTPVerification = (props) => {
   return (
     <View style={styles.container}>
       <CustomStatusBar />
-      
+
       <View style={{ alignItems: 'center' }}>
         <Text style={{ color: '#555', marginBottom: 10, fontSize: 18, textAlign: 'center' }}>Enter 6-digit verification code sent to you at <Text style={{ fontWeight: 'bold', color: '#333' }}>{"+88"+mobile}</Text></Text>
         { console.log("OTP: "+OTP_ID+" ---- Entered: "+enteredOTP) }
@@ -124,14 +148,14 @@ export const OTPVerification = (props) => {
         <View style={styles.fieldContainer}>
 			  {/* <OtpInputs getOtp={(otp) => setEnteredOTP(otp)} SMSReceived={sMSReceived} /> */}
 			  {/* <TextInput label="OTP" render={ props => <TextInputMask {...props} mask="+[00] [000] [000] [000]" /> } /> */}
-			  <TextInput style={{ borderWidth: 1, width: '90%', borderColor: '#000', fontSize: 20, fontWeight: 'bold', textAlign: 'center' }} 
-			  placeholder="" 
-			  placeholderTextColor="rgba(0,0,0,.5)" 
-			  keyboardType="numeric" 
-			  autoCorrect={false} 
-			  underlineColorAndroid="transparent" 
-			  onChangeText={val => setEnteredOTP( val )} 
-			  value={enteredOTP} 
+			  <TextInput style={{ borderWidth: 1, width: '90%', borderColor: '#000', fontSize: 20, fontWeight: 'bold', textAlign: 'center' }}
+			  placeholder=""
+			  placeholderTextColor="rgba(0,0,0,.5)"
+			  keyboardType="numeric"
+			  autoCorrect={false}
+			  underlineColorAndroid="transparent"
+			  onChangeText={val => setEnteredOTP( val )}
+			  value={enteredOTP}
 			  />
         </View>
 
@@ -155,7 +179,7 @@ export const OTPVerification = (props) => {
           </View>
         )}
       </View>
-        
+
       {otpVerifySuccess && (
         <View style={{ flex: 1, flexDirection: "column", justifyContent: 'flex-end', alignItems: 'center', marginBottom: 20 }}>
           <AntDesign name="checkcircleo" size={40} color="green" />

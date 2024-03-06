@@ -42,7 +42,7 @@ export default function MenuStackScreen() {
       <MenuStack.Screen name="savedPlaces" component={savedPlaceScreen} options={{ title: "Saved Places", headerRight: () => Options.APP_OPTIONS.HEADER_LOGO }} />
       <MenuStack.Screen name="myWallet" component={myWalletMenu} options={{ title: "My Wallet", headerRight: () => Options.APP_OPTIONS.HEADER_LOGO }} />
       <MenuStack.Screen name="Coupons" component={Coupons} options={{ title: "Coupons", headerRight: () => Options.APP_OPTIONS.HEADER_LOGO }} />
-      <MenuStack.Screen name="recentTransaction" component={recentTransaction} options={{ title: "Recent Transaction", headerRight: () => Options.APP_OPTIONS.HEADER_LOGO }} />
+      <MenuStack.Screen name="recentTransaction" component={recentTransaction} options={{ headerShown: false, title: "Recent Transaction", headerRight: () => Options.APP_OPTIONS.HEADER_LOGO }} />
       <MenuStack.Screen name="PaymentMethods" component={PaymentMethods} options={{ title: "Payment Methods", headerRight: () => Options.APP_OPTIONS.HEADER_LOGO }} />
       <MenuStack.Screen name="Language" component={LanguageScreen} options={ ({ route }) => { title: route.params.name }} />
       <MenuStack.Screen name="Permissions" component={PermissionsScreen} options={{ title: "Permissions", headerRight: () => Options.APP_OPTIONS.HEADER_LOGO }} />
@@ -73,7 +73,7 @@ export const MenuScreen = (props) => {
   const [showBalance, setShowBalance] = React.useState(null);
   // const [balanceWidth, setBalanceWidth] = React.useState(new Animated.Value(100));
 
-  
+
   const getUserData = async () => {
     try {
       const mobile = await AsyncStorage.getItem('mobile');
@@ -81,14 +81,14 @@ export const MenuScreen = (props) => {
 
       const userName = await AsyncStorage.getItem('userName');
       if(userName !== null) { setUserName( userName ); }
-      
+
       const userImage = await AsyncStorage.getItem('userImage');
       if(userImage !== null) { setUserImage( userImage ); }
-    } 
+    }
     catch (error) { console.error(error); }
   }
   React.useEffect(() => { getUserData() }, []);
-  
+
 
   const showBalanceHandle = async () => {
     await axios.get(BASE_URL+'/get-wallet-balance/' + mobile)
@@ -103,13 +103,13 @@ export const MenuScreen = (props) => {
       }
     })
     .catch((error) => {
-      console.log("Submitting Error: "+error); 
-      ToastAndroid.showWithGravity(Options.APP_OPTIONS.NETWORK_ERROR_MESSAGE, ToastAndroid.SHORT, ToastAndroid.BOTTOM); 
+      console.log("Submitting Error: "+error);
+      ToastAndroid.showWithGravity(Options.APP_OPTIONS.NETWORK_ERROR_MESSAGE, ToastAndroid.SHORT, ToastAndroid.BOTTOM);
     });
 	  setTimeout(() => {setShowBalance(false)}, 5000);
   }
 
-  
+
   return (
     <SafeAreaView style={styles.container}>
 	    <CustomStatusBar />
@@ -119,7 +119,7 @@ export const MenuScreen = (props) => {
           {userImage !== "" && <Image source={{uri: userImage, crop: {left: 30, top: 30, width: 60, height: 60}}} style={{height: 70, width: 70, borderRadius: 35 }} /> }
           {userImage == "" && <Feather name="user" size={50} color="#333" style={styles.profileImage} /> }
         </View>
-		
+
         <View style={styles.profileRight}>
           <Text style={styles.profileName}>{userName}</Text>
           <Text style={styles.profileMobile}>{mobile}</Text>
@@ -300,7 +300,7 @@ const styles = StyleSheet.create({
       fontFamily: Typography.PRIMARY_FONT_BOLD
   },
   listItem: {
-    borderBottomColor: "#eee", 
+    borderBottomColor: "#eee",
     borderBottomWidth: 1,
     paddingHorizontal: 50,
     paddingVertical: 15,
@@ -359,7 +359,7 @@ const styles = StyleSheet.create({
   },
   btnText: {
     fontSize: 16,
-    color: "#fff", 
+    color: "#fff",
     fontWeight: 'bold',
     //fontFamily: 'Roboto-Bold'
   }
