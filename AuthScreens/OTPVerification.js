@@ -22,7 +22,7 @@ export const OTPVerification = (props) => {
   const { mobile, callingCode, OTP_ID, redirectScreen } = props.route.params;
   // {JSON.stringify(mobile)}
 
-  const [counter, setCounter] = React.useState(59);
+  const [counter, setCounter] = React.useState(15);
 
   const [enteredOTP, setEnteredOTP] = React.useState(0);
   const [userToken, setUserToken] = React.useState(null);
@@ -42,75 +42,51 @@ export const OTPVerification = (props) => {
   }, [enteredOTP]);
 
   // React.useEffect(() => {
-    // SMSReceiver.requestReadSmsPermission();
+  // SMSReceiver.requestReadSmsPermission();
   // }, []);
 
 
-   const verify_otp = () => {
-       setAnimating(true);
-               setOtpVerifyingSpinner(true);
+  const verify_otp = () => {
+    setAnimating(true);
+    axios.post(SMS_API_URL+"verify-otp", {
+      otp_id: OTP_ID,
+      otp_code: enteredOTP
+    })
+        .then(res => {
+          console.log("Status: "+res?.data?.status);
+          //if(sms_status_array[res.data]) { Alert.alert(sms_status_array[res.data] + " Please contact to App Provider."); }
+          if(res?.data?.status && res?.data?.status==="APPROVED"){
+            setOtpVerifyingSpinner(true);
 
-               setTimeout(() => {
-                 setOtpVerifyingSpinner(false);
-                 setOtpVerifySuccess(true);
+            setTimeout(() => {
+              setOtpVerifyingSpinner(false);
+              setOtpVerifySuccess(true);
 
-                 setTimeout( async () => {
-                   if(redirectScreen === "App"){
-                     try {
-                       await AsyncStorage.setItem('userToken', '1');
-                       setUserToken('1');
-                       signInToken(); /*This for auto redirect to home page & refresh*/
-                       props.navigation.navigate('App');
-                       setOtpVerifySuccess(false);
-                     } catch (error) { console.error(error); }
-                   }
-                   else if(redirectScreen === "SignUpForm"){
-                     props.navigation.navigate('SignUpForm', { mobile: mobile, OTP_CODE: enteredOTP })
-                     setOtpVerifySuccess(false);
-                   }
-                 }, 500);
-               }, 3000);
-
-
-     // axios.post(SMS_API_URL+"verify-otp", {
-     //   otp_id: OTP_ID,
-     //   otp_code: enteredOTP
-     // })
-     //     .then(res => {
-     //       console.log("Status: "+res?.data?.status);
-     //       //if(sms_status_array[res.data]) { Alert.alert(sms_status_array[res.data] + " Please contact to App Provider."); }
-     //       if(res?.data?.status && res?.data?.status==="APPROVED"){
-     //         setOtpVerifyingSpinner(true);
-     //
-     //         setTimeout(() => {
-     //           setOtpVerifyingSpinner(false);
-     //           setOtpVerifySuccess(true);
-     //
-     //           setTimeout( async () => {
-     //             if(redirectScreen === "App"){
-     //               try {
-     //                 await AsyncStorage.setItem('userToken', '1');
-     //                 setUserToken('1');
-     //                 signInToken(); /*This for auto redirect to home page & refresh*/
-     //                 props.navigation.navigate('App');
-     //                 setOtpVerifySuccess(false);
-     //               } catch (error) { console.error(error); }
-     //             }
-     //             else if(redirectScreen === "SignUpForm"){
-     //               props.navigation.navigate('SignUpForm', { mobile: mobile, OTP_CODE: enteredOTP })
-     //               setOtpVerifySuccess(false);
-     //             }
-     //           }, 500);
-     //         }, 3000);
-     //       }
-     //       else {
-     //         Alert.alert("Error", "Wrong OTP Code entered. Please Try Again");
-     //       }
-     //     })
-     //     .catch((error) => {
-     //       console.log("Submitting Error: "+error);
-     //       ToastAndroid.show(Options.APP_OPTIONS.NETWORK_ERROR_MESSAGE, ToastAndroid.SHORT);
-     //      });
+              setTimeout( async () => {
+                if(redirectScreen === "App"){
+                  try {
+                    await AsyncStorage.setItem('userToken', '1');
+                    setUserToken('1');
+                    signInToken(); /*This for auto redirect to home page & refresh*/
+                    props.navigation.navigate('App');
+                    setOtpVerifySuccess(false);
+                  } catch (error) { console.error(error); }
+                }
+                else if(redirectScreen === "SignUpForm"){
+                  props.navigation.navigate('SignUpForm', { mobile: mobile, OTP_CODE: enteredOTP })
+                  setOtpVerifySuccess(false);
+                }
+              }, 500);
+            }, 3000);
+          }
+          else {
+            Alert.alert("Error", "Wrong OTP Code entered. Please Try Again");
+          }
+        })
+        .catch((error) => {
+          console.log("Submitting Error: "+error);
+          ToastAndroid.show(Options.APP_OPTIONS.NETWORK_ERROR_MESSAGE, ToastAndroid.SHORT);
+        });
   }
 
 
@@ -120,17 +96,17 @@ export const OTPVerification = (props) => {
     axios.post(SMS_API_URL+"resend-otp", {
       otp_id: OTP_ID,
     })
-    .then(res => {
-      // if(sms_status_array[res.data]) {
-      //   Alert.alert(sms_status_array[res.data] + " Please contact to App Provider.");
-      // }
-      // setCounter(59);
-      // ToastAndroid.showWithGravity("OTP Verification Code Sent again", ToastAndroid.LONG, ToastAndroid.BOTTOM);
-    })
-    .catch((error) => {
-      console.log("Error resending otp: "+error);
-      ToastAndroid.show(Options.APP_OPTIONS.NETWORK_ERROR_MESSAGE, ToastAndroid.SHORT);
-    });
+        .then(res => {
+          // if(sms_status_array[res.data]) {
+          //   Alert.alert(sms_status_array[res.data] + " Please contact to App Provider.");
+          // }
+          // setCounter(59);
+          // ToastAndroid.showWithGravity("OTP Verification Code Sent again", ToastAndroid.LONG, ToastAndroid.BOTTOM);
+        })
+        .catch((error) => {
+          console.log("Error resending otp: "+error);
+          ToastAndroid.show(Options.APP_OPTIONS.NETWORK_ERROR_MESSAGE, ToastAndroid.SHORT);
+        });
   }
 
   const disabledBtn = () => {
@@ -138,62 +114,62 @@ export const OTPVerification = (props) => {
   }
 
   return (
-    <View style={styles.container}>
-      <CustomStatusBar />
+      <View style={styles.container}>
+        <CustomStatusBar />
 
-      <View style={{ alignItems: 'center' }}>
-        <Text style={{ color: '#555', marginBottom: 10, fontSize: 18, textAlign: 'center' }}>Enter 6-digit verification code sent to you at <Text style={{ fontWeight: 'bold', color: '#333' }}>{"+88"+mobile}</Text></Text>
-        { console.log("OTP: "+OTP_ID+" ---- Entered: "+enteredOTP) }
+        <View style={{ alignItems: 'center' }}>
+          <Text style={{ color: '#555', marginBottom: 10, fontSize: 18, textAlign: 'center' }}>Enter 6-digit verification code sent to you at <Text style={{ fontWeight: 'bold', color: '#333' }}>{"+88"+mobile}</Text></Text>
+          { console.log("OTP: "+OTP_ID+" ---- Entered: "+enteredOTP) }
 
-        <View style={styles.fieldContainer}>
-			  {/* <OtpInputs getOtp={(otp) => setEnteredOTP(otp)} SMSReceived={sMSReceived} /> */}
-			  {/* <TextInput label="OTP" render={ props => <TextInputMask {...props} mask="+[00] [000] [000] [000]" /> } /> */}
-			  <TextInput style={{ borderWidth: 1, width: '90%', borderColor: '#000', fontSize: 20, fontWeight: 'bold', textAlign: 'center' }}
-			  placeholder=""
-			  placeholderTextColor="rgba(0,0,0,.5)"
-			  keyboardType="numeric"
-			  autoCorrect={false}
-			  underlineColorAndroid="transparent"
-			  onChangeText={val => setEnteredOTP( val )}
-			  value={enteredOTP}
-			  />
+          <View style={styles.fieldContainer}>
+            {/* <OtpInputs getOtp={(otp) => setEnteredOTP(otp)} SMSReceived={sMSReceived} /> */}
+            {/* <TextInput label="OTP" render={ props => <TextInputMask {...props} mask="+[00] [000] [000] [000]" /> } /> */}
+            <TextInput style={{ borderWidth: 1, width: '90%', borderColor: '#000', fontSize: 20, fontWeight: 'bold', textAlign: 'center' }}
+                       placeholder=""
+                       placeholderTextColor="rgba(0,0,0,.5)"
+                       keyboardType="numeric"
+                       autoCorrect={false}
+                       underlineColorAndroid="transparent"
+                       onChangeText={val => setEnteredOTP( val )}
+                       value={enteredOTP}
+            />
+          </View>
+
+          {/*<TouchableOpacity style={[styles.button, { opacity: (disabledBtn() == 1 ? 0.7 : 1) }]} onPress={ verify_otp } disabled={disabledBtn() == 1 ? true : false}>*/}
+          {/*  <Text style={styles.btnText}>Verify & Proceed</Text>*/}
+          {/*</TouchableOpacity>*/}
         </View>
 
-        {/*<TouchableOpacity style={[styles.button, { opacity: (disabledBtn() == 1 ? 0.7 : 1) }]} onPress={ verify_otp } disabled={disabledBtn() == 1 ? true : false}>*/}
-        {/*  <Text style={styles.btnText}>Verify & Proceed</Text>*/}
-        {/*</TouchableOpacity>*/}
-      </View>
+        <View style={{ flexDirection: "row", justifyContent: 'space-around', alignItems: 'flex-start', marginTop: 0 }}>
+          { counter == 0 ? (
+              <View style={{ flex: 3, flexDirection: "row", justifyContent: 'space-around' }}>
+                <Text style={ {color: "#333"}}>Didn't received the OTP?</Text>
+                <TouchableOpacity onPress={resendOTP}>
+                  <Text style={styles.hyperLinkText}>Resend OTP</Text>
+                </TouchableOpacity>
+              </View>
+          ) : (
+              <View style={{flexDirection:'row', flexWrap:'wrap'}}>
+                <Text style={{ color: "#666" }}>OTP Verification number expire in </Text>
+                <Text style={{fontWeight: "bold", color: "#00A968"}}>{ counter }</Text>
+              </View>
+          )}
+        </View>
 
-      <View style={{ flexDirection: "row", justifyContent: 'space-around', alignItems: 'flex-start', marginTop: 0 }}>
-        { counter == 0 ? (
-          <View style={{ flex: 3, flexDirection: "row", justifyContent: 'space-around' }}>
-            <Text style={ {color: "#333"}}>Didn't received the OTP?</Text>
-            <TouchableOpacity onPress={resendOTP}>
-              <Text style={styles.hyperLinkText}>Resend OTP</Text>
-            </TouchableOpacity>
-          </View>
-        ) : (
-          <View style={{flexDirection:'row', flexWrap:'wrap'}}>
-            <Text style={{ color: "#666" }}>OTP Verification number expire in </Text>
-            <Text style={{fontWeight: "bold", color: "#00A968"}}>{ counter }</Text>
-          </View>
+        {otpVerifySuccess && (
+            <View style={{ flex: 1, flexDirection: "column", justifyContent: 'flex-end', alignItems: 'center', marginBottom: 20 }}>
+              <AntDesign name="checkcircleo" size={40} color="green" />
+              <Text>You have successfully verified OTP code</Text>
+            </View>
+        )}
+
+        {otpVerifyingSpinner && (
+            <View style={{ flex: 1, flexDirection: "column", justifyContent: 'flex-end', alignItems: 'center', marginBottom: 20 }}>
+              <ActivityIndicator animating={animating} size="large" color='#F53D3D' />
+              <Text>Verifying OTP Code...</Text>
+            </View>
         )}
       </View>
-
-      {otpVerifySuccess && (
-        <View style={{ flex: 1, flexDirection: "column", justifyContent: 'flex-end', alignItems: 'center', marginBottom: 20 }}>
-          <AntDesign name="checkcircleo" size={40} color="green" />
-          <Text>You have successfully verified OTP code</Text>
-        </View>
-      )}
-
-      {otpVerifyingSpinner && (
-        <View style={{ flex: 1, flexDirection: "column", justifyContent: 'flex-end', alignItems: 'center', marginBottom: 20 }}>
-          <ActivityIndicator animating={animating} size="large" color='#F53D3D' />
-          <Text>Verifying OTP Code...</Text>
-        </View>
-      )}
-    </View>
   )
 }
 
@@ -225,7 +201,7 @@ const styles = StyleSheet.create({
     height: 40,
     width: (width - 80),
   },
-   btnText: {
+  btnText: {
     color: "#fff",
     fontSize: 16,
     fontWeight: 'bold'
