@@ -48,6 +48,14 @@
         "source": "com.uderuserapp-main-45:/mipmap-xxxhdpi/ic_launcher_round.png"
     },
     {
+        "merged": "com.uderuserapp-merged_res-43:/mipmap-mdpi_ic_launcher.jpg.flat",
+        "source": "com.uderuserapp-main-45:/mipmap-mdpi/ic_launcher.jpg"
+    },
+    {
+        "merged": "com.uderuserapp-merged_res-43:/mipmap-xxhdpi_ic_launcher.jpg.flat",
+        "source": "com.uderuserapp-main-45:/mipmap-xxhdpi/ic_launcher.jpg"
+    },
+    {
         "merged": "com.uderuserapp-merged_res-43:/mipmap-xxxhdpi_ic_launcher_foreground.png.flat",
         "source": "com.uderuserapp-main-45:/mipmap-xxxhdpi/ic_launcher_foreground.png"
     },
@@ -72,8 +80,8 @@
         "source": "com.uderuserapp-main-45:/raw/pew.aac"
     },
     {
-        "merged": "com.uderuserapp-merged_res-43:/mipmap-xxxhdpi_ic_launcher.png.flat",
-        "source": "com.uderuserapp-main-45:/mipmap-xxxhdpi/ic_launcher.png"
+        "merged": "com.uderuserapp-merged_res-43:/mipmap-xxxhdpi_ic_launcher.jpg.flat",
+        "source": "com.uderuserapp-main-45:/mipmap-xxxhdpi/ic_launcher.jpg"
     },
     {
         "merged": "com.uderuserapp-merged_res-43:/mipmap-xxhdpi_ic_launcher_round.png.flat",
@@ -84,12 +92,12 @@
         "source": "com.uderuserapp-main-45:/mipmap-xhdpi/ic_launcher_foreground.png"
     },
     {
-        "merged": "com.uderuserapp-merged_res-43:/mipmap-hdpi_ic_launcher.png.flat",
-        "source": "com.uderuserapp-main-45:/mipmap-hdpi/ic_launcher.png"
+        "merged": "com.uderuserapp-merged_res-43:/mipmap-hdpi_ic_launcher.jpg.flat",
+        "source": "com.uderuserapp-main-45:/mipmap-hdpi/ic_launcher.jpg"
     },
     {
-        "merged": "com.uderuserapp-merged_res-43:/mipmap-xhdpi_ic_launcher.png.flat",
-        "source": "com.uderuserapp-main-45:/mipmap-xhdpi/ic_launcher.png"
+        "merged": "com.uderuserapp-merged_res-43:/mipmap-xhdpi_ic_launcher.jpg.flat",
+        "source": "com.uderuserapp-main-45:/mipmap-xhdpi/ic_launcher.jpg"
     },
     {
         "merged": "com.uderuserapp-merged_res-43:/mipmap-xhdpi_ic_launcher_round.png.flat",
@@ -110,14 +118,6 @@
     {
         "merged": "com.uderuserapp-merged_res-43:/raw_beep.mp3.flat",
         "source": "com.uderuserapp-main-45:/raw/beep.mp3"
-    },
-    {
-        "merged": "com.uderuserapp-merged_res-43:/mipmap-mdpi_ic_launcher.png.flat",
-        "source": "com.uderuserapp-main-45:/mipmap-mdpi/ic_launcher.png"
-    },
-    {
-        "merged": "com.uderuserapp-merged_res-43:/mipmap-xxhdpi_ic_launcher.png.flat",
-        "source": "com.uderuserapp-main-45:/mipmap-xxhdpi/ic_launcher.png"
     },
     {
         "merged": "com.uderuserapp-merged_res-43:/drawable-xxhdpi_ic_notification.png.flat",

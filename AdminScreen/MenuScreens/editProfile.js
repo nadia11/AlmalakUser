@@ -83,8 +83,8 @@ export default function editProfile(props) {
         user_name: fullName,
         gender: gender,
         date_of_birth: moment(dateOfBirth).format('DD/MM/YYYY'),
-        user_image: 'data:image/jpeg;base64,' + uploadedImage.base64,
-        file_name: uploadedImage.fileName == undefined ? "no_image" : uploadedImage.fileName,
+        user_image: 'data:image/jpeg;base64,' + uploadedImage?.assets[0]?.base64,
+        file_name: uploadedImage?.assets[0]?.fileName === undefined ? "no_image" : uploadedImage?.assets[0]?.fileName,
       },
       {onUploadProgress: progressEvent => { 
         console.log('Upload Progress: ' + Math.round(progressEvent.loaded / progressEvent.total * 100) + "%"); 

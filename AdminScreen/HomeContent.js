@@ -143,7 +143,7 @@ export default function HomeScreen({ navigation }) {
           </TouchableOpacity>
         </View>
         
-        <Noticeboard color="green" />
+        {/*<Noticeboard color="green" />*/}
 
         <View style={styles.sectionContainer}>
           <Text style={styles.title}>Services</Text>
