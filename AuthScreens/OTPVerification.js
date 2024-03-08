@@ -22,7 +22,7 @@ export const OTPVerification = (props) => {
   const { mobile, callingCode, OTP_ID, redirectScreen } = props.route.params;
   // {JSON.stringify(mobile)}
 
-  const [counter, setCounter] = React.useState(15);
+  const [counter, setCounter] = React.useState(59);
 
   const [enteredOTP, setEnteredOTP] = React.useState(0);
   const [userToken, setUserToken] = React.useState(null);
