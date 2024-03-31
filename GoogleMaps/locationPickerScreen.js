@@ -45,6 +45,7 @@ export default class LocationPickerScreen extends Component {
   }
 
   async onSearchLocation(location) {
+    this.setState({ userLocation: location });
     const apiUrl = `https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${GOOGLE_API_KEY}&input=${location}&location=${this.state.latitude},${this.state.longitude}&radius=2000&components=country:BD&types=geocode&language=en`;
     try {
       const result = await fetch(apiUrl);
@@ -91,6 +92,7 @@ export default class LocationPickerScreen extends Component {
         (error) => { geoErr(error); this.setState({ error: error.message, loading: false }) },
         { enableHighAccuracy: enableHighAccuracy, timeout: 20000, maximumAge: 1000 },
       );
+      this.fetchAddress();
     }
   }
 
@@ -293,7 +295,7 @@ export default class LocationPickerScreen extends Component {
           {!!this.state.region.latitude && !!this.state.region.longitude && (
             <MapView style={{ ...styles.map, marginTop: this.state.marginTop }}
             provider={this.props.provider} customMapStyle={customMapStyle} 
-            initialRegion={this.state.region} showsUserLocation={true} showsMyLocationButton={false}
+            initialRegion={this.state.region} showsUserLocation={true} showsMyLocationButton={true}
             onMapReady={this.onMapReady} onRegionChange={() => {}} onRegionChangeComplete={this.onRegionChange} ref={map => {this.map = map}}>
 
             </MapView>
@@ -313,7 +315,7 @@ export default class LocationPickerScreen extends Component {
         <MaterialIcons style={styles.arrowBackButton} name="arrow-back" size={25} color="#000" onPress={() => this.props.navigation.goBack() } />
 
         <View style={styles.deatilSection}>
-          <TextInput ellipsizeMode='tail' numberOfLines={1} selectTextOnFocus={true} style={styles.locationTextInput} value={!this.state.regionChangeProgress ? this.state.userLocation : "Loading..."} onChangeText={location => { console.log(location); this.setState({ location, pointCoords: [] }); this.onSearchLocationDebounced(location); }} />
+          <TextInput ellipsizeMode='tail' numberOfLines={1} selectTextOnFocus={true} style={styles.locationTextInput} value={!this.state.regionChangeProgress ? this.state.userLocation : "Loading..."} onChangeText={location => { console.log(location); this.setState({ location, pointCoords: [] }); this.setState({userLocation:location});this.onSearchLocationDebounced(location); }} />
         </View>
 
         <View style={styles.searchResultsWrapper}>
