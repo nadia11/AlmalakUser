@@ -11,7 +11,7 @@ import { Options } from '../../config';
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
-export default function savedPlaceScreenModal(props) {
+export default function SavedPlaceScreenModal(props) {
   const { navigation } = props;
   const [animating, setAnimating] = React.useState(false);
   const [totalRecord, setTotalRecord] = React.useState();
@@ -68,7 +68,7 @@ export default function savedPlaceScreenModal(props) {
         </View>
       </ScrollView>
 
-        <TouchableOpacity onPress={() => navigation.navigate('locationPickerScreen', {name: "addLocation", mobile: mobile })} style={{marginVertical: 20, backgroundColor: "#ddd", paddingHorizontal: 50, paddingVertical: 10, borderRadius: 3}}>
+        <TouchableOpacity onPress={() => navigation.navigate('LocationPickerScreen', {name: "addLocation", mobile: mobile })} style={{marginVertical: 20, backgroundColor: "#ddd", paddingHorizontal: 50, paddingVertical: 10, borderRadius: 3}}>
           <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
             <Feather name="plus" size={25} color={Colors.BUTTON_COLOR} />
             <Text style={{fontSize: 16}}> Add New Place</Text>

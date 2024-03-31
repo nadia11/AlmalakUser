@@ -73,13 +73,13 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.uderuserapp"
+    namespace "com.uderuser.almalak"
     defaultConfig {
-        applicationId "com.uderuserapp"
+        applicationId "com.uderuser.almalak"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 2
-        versionName "2.0"
+        versionCode 3
+        versionName "2.0.1"
 
 
         aaptOptions {

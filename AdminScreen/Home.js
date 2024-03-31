@@ -27,7 +27,7 @@ const HomeStack = createNativeStackNavigator();
 function HomeStackScreen() {
   return (
     <HomeStack.Navigator screenOptions={{ headerShown: false }}>
-      <HomeStack.Screen name="Home" component={HomeScreen} options={{ headerLeft: props => <DrawerButton {...props} />, headerTitleAlign: 'center', title: '', headerRight: () => Options.APP_OPTIONS.HEADER_LOGO }} />
+      <HomeStack.Screen name="Welcome" component={HomeScreen} options={{ headerLeft: props => <DrawerButton {...props} />, headerTitleAlign: 'center', title: '', headerRight: () => Options.APP_OPTIONS.HEADER_LOGO }} />
       <HomeStack.Screen name="HomeDetails" component={HomeDetailsScreen} />
     </HomeStack.Navigator>
   );
@@ -85,7 +85,7 @@ export default function Home() {
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
 
-          if (route.name === 'Home') { iconName = focused ? 'home' : 'home'; }
+          if (route.name === 'Hub') { iconName = focused ? 'home' : 'home'; }
           if (route.name === 'Notifications') { iconName = focused ? 'notifications' : 'notifications-active'; }
           if (route.name === 'History') { iconName = focused ? 'history' : 'history'; }
           if (route.name === 'Feed') { iconName = focused ? 'rss-feed' : 'rss-feed'; }
@@ -93,8 +93,8 @@ export default function Home() {
           return <MaterialIcons name={iconName} size={28} color={color} />;
         },
       })}
-      initialRouteName="Home" activeColor="#fff" inactiveColor="#31455A" barStyle={{ backgroundColor: Colors.HEADER_NAV_COLOR, paddingBottom: 5, shadowColor:'#000', shadowOffset: {width:0, height:0 }, shadowOpacity: 0.5 }} labeled={true} shifting={true}>
-      <MaterialBottomTab.Screen name="Home" component={HomeStackScreen} />
+      initialRouteName="Hub" activeColor="#fff" inactiveColor="#31455A" barStyle={{ backgroundColor: Colors.HEADER_NAV_COLOR, paddingBottom: 5, shadowColor:'#000', shadowOffset: {width:0, height:0 }, shadowOpacity: 0.5 }} labeled={true} shifting={true}>
+      <MaterialBottomTab.Screen name="Hub" component={HomeStackScreen} />
       <MaterialBottomTab.Screen name="Notifications" component={NotificationList} />
       <MaterialBottomTab.Screen name="History" component={HistoryStackScreen} />
       <MaterialBottomTab.Screen name="Feed" component={FeedStackScreen} options={{tabBarLabel: 'Feed', tabBarIcon: ({ color }) => (<Ionicons name="newspaper-outline" color={color} size={26} />)}} />

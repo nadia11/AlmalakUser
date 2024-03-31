@@ -165,7 +165,7 @@ export default function HomeScreen({ navigation }) {
 
         <View style={styles.sectionContainer}>
           <Text style={styles.title}>Your Favourite Locations</Text>
-          <TouchableOpacity onPress={() => navigation.navigate('locationPickerScreen', {name: "homePlace", geometry: (homePlace ? homePlace.geometry : "")})} style={styles.listItem}>
+          <TouchableOpacity onPress={() => navigation.navigate('LocationPickerScreen', {name: "homePlace", geometry: (homePlace ? homePlace.geometry : "")})} style={styles.listItem}>
             <Feather name="home" size={25} color={homePlace ? "#007bff" : "#000"} style={styles.leftIcon} />
             <View style={styles.listItemContent}>
               <Text style={styles.locationTitle}>Home</Text>
@@ -173,7 +173,7 @@ export default function HomeScreen({ navigation }) {
             </View>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => navigation.navigate('locationPickerScreen', {name: "workPlace", geometry: (workPlace ? workPlace.geometry : "")})} style={styles.listItem}>
+          <TouchableOpacity onPress={() => navigation.navigate('LocationPickerScreen', {name: "workPlace", geometry: (workPlace ? workPlace.geometry : "")})} style={styles.listItem}>
             <Feather name="briefcase" size={25} color={workPlace ? "#007bff" : "#000"} style={styles.leftIcon} />
             <View style={[styles.listItemContent, styles.listItemContentLast]}>
               <Text style={styles.locationTitle}>Work</Text>

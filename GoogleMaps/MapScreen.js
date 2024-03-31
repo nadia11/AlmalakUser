@@ -550,7 +550,7 @@ export default class MapScreen extends Component {
     if(this.state.destinationCoords.length > 1) {
       routeDirection = (
         <Fragment>
-          <Marker coordinate={this.state.destinationCoords[this.state.destinationCoords.length - 1]} anchor={{ x: 0, y: 0 }} onPress={() => this.props.navigation.navigate('locationPickerScreen', {name: "MapScreen", action: "changeDestinationAgain", 'tripLat': this.state.destinationCoords[0].latitude, 'tripLng': this.state.destinationCoords[0].longitude, changeDestinationAgain: this.changeDestinationAgain.bind(this)})}>
+          <Marker coordinate={this.state.destinationCoords[this.state.destinationCoords.length - 1]} anchor={{ x: 0, y: 0 }} onPress={() => this.props.navigation.navigate('LocationPickerScreen', {name: "MapScreen", action: "changeDestinationAgain", 'tripLat': this.state.destinationCoords[0].latitude, 'tripLng': this.state.destinationCoords[0].longitude, changeDestinationAgain: this.changeDestinationAgain.bind(this)})}>
             <Image source={require('../assets/images/markerDest.png')} style={{ width: 15, height: 15 }} />
             <LocationBox>
               <LocationText>{this.state.destination ? (this.state.destination).substr(0, 20)+"..." : ""}</LocationText>
@@ -558,7 +558,7 @@ export default class MapScreen extends Component {
             </LocationBox>
           </Marker>
 
-          <Marker coordinate={{ latitude: this.state.latitude, longitude: this.state.longitude }} anchor={{ x: .5, y: 1 }} onPress={() => this.props.navigation.navigate('locationPickerScreen', {name: "MapScreen", action: "changePickupLocationAgain", 'tripLat': this.state.longitude, 'tripLng': this.state.longitude, changePickupLocationAgain: this.changePickupLocationAgain.bind(this)})}>
+          <Marker coordinate={{ latitude: this.state.latitude, longitude: this.state.longitude }} anchor={{ x: .5, y: 1 }} onPress={() => this.props.navigation.navigate('LocationPickerScreen', {name: "MapScreen", action: "changePickupLocationAgain", 'tripLat': this.state.longitude, 'tripLng': this.state.longitude, changePickupLocationAgain: this.changePickupLocationAgain.bind(this)})}>
             <Image source={require('../assets/images/marker.png')} style={{ width: 15, height: 15 }} />
             <LocationBox>
               <LocationTimeBox>
@@ -744,7 +744,7 @@ export default class MapScreen extends Component {
                 <View style={{backgroundColor: '#ddd', height: 8, width: (SCREEN_WIDTH+30), marginLeft: -20, marginTop: 0, marginBottom: 0 }}></View> 
               )}
 
-              <TouchableOpacity onPress={() => {this.setState({ modalSearchMapVisible: false }); this.props.navigation.navigate('locationPickerScreen', {name: "MapScreen", action: "locationSearch", locationSearch: this.propsLocationSearch.bind(this)}); }} style={[[styles.listItem, styles.listItemContent]]}>
+              <TouchableOpacity onPress={() => {this.setState({ modalSearchMapVisible: false }); this.props.navigation.navigate('LocationPickerScreen', {name: "MapScreen", action: "locationSearch", locationSearch: this.propsLocationSearch.bind(this)}); }} style={[[styles.listItem, styles.listItemContent]]}>
                 <FontAwesome name="map-pin" size={20} color="#333" style={styles.leftIcon} />
                 <Text style={styles.locationTitle}>Set location on Map</Text>
               </TouchableOpacity>

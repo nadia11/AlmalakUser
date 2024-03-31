@@ -110,7 +110,7 @@ export default function savedPlaceScreen(props) {
         <View style={styles.savedPlace}>
           <Text style={{textAlign: 'center', fontSize: 18, marginBottom: 10, fontWeight: 'bold'}}>Your Favourite Places</Text>
           
-          <TouchableOpacity onPress={() => navigation.navigate('locationPickerScreen', {name: "homePlace", geometry: (homePlace ? homePlace.geometry : "")})} style={styles.savedPlaceItem}>
+          <TouchableOpacity onPress={() => navigation.navigate('LocationPickerScreen', {name: "homePlace", geometry: (homePlace ? homePlace.geometry : "")})} style={styles.savedPlaceItem}>
             <Feather name="home" size={20} color={homePlace ? "#007bff" : "#000"} style={styles.savedPlaceLeftIcon} />
             <View style={styles.savedPlaceItemContent}>
               <Text style={styles.savedPlaceLocationTitle}>Home</Text>
@@ -118,7 +118,7 @@ export default function savedPlaceScreen(props) {
             </View>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => navigation.navigate('locationPickerScreen', {name: "workPlace", geometry: (workPlace ? workPlace.geometry : "")})} style={styles.savedPlaceItem}>
+          <TouchableOpacity onPress={() => navigation.navigate('LocationPickerScreen', {name: "workPlace", geometry: (workPlace ? workPlace.geometry : "")})} style={styles.savedPlaceItem}>
             <Feather name="briefcase" size={20} color={workPlace ? "#007bff" : "#000"} style={styles.savedPlaceLeftIcon} />
             <View style={styles.savedPlaceItemContent}>
               <Text style={styles.savedPlaceLocationTitle}>Work</Text>
@@ -132,7 +132,7 @@ export default function savedPlaceScreen(props) {
           {animating && (<ActivityIndicator animating={animating} color='red' size="large" />)}
 
           {placeData.map(place => (
-            <TouchableOpacity key={place.main_text} onPress={() => navigation.navigate('locationPickerScreen', {name: place.main_text, favorite_place_id: place.favorite_place_id, geometryLat: parseFloat(place.latitude, 7), geometryLng: parseFloat(place.longitude, 7)})} key={place.favorite_place_id} onLongPress={() => deletePlace(place.favorite_place_id)} activeOpacity={0.6} style={styles.savedPlaceItem}>
+            <TouchableOpacity key={place.main_text} onPress={() => navigation.navigate('LocationPickerScreen', {name: place.main_text, favorite_place_id: place.favorite_place_id, geometryLat: parseFloat(place.latitude, 7), geometryLng: parseFloat(place.longitude, 7)})} key={place.favorite_place_id} onLongPress={() => deletePlace(place.favorite_place_id)} activeOpacity={0.6} style={styles.savedPlaceItem}>
               <FontAwesome name="star" size={20} color="#000" style={styles.savedPlaceLeftIcon} />
               <View style={styles.savedPlaceItemContent}>
                 <Text style={styles.savedPlaceLocationTitle}>{place.main_text}</Text>
@@ -143,7 +143,7 @@ export default function savedPlaceScreen(props) {
         </View>
       </ScrollView>
 
-        <TouchableOpacity onPress={() => navigation.navigate('locationPickerScreen', {name: "addLocation", mobile: mobile })} style={{marginVertical: 20, backgroundColor: "#ddd", paddingHorizontal: 50, paddingVertical: 10, borderRadius: 3}}>
+        <TouchableOpacity onPress={() => navigation.navigate('LocationPickerScreen', {name: "addLocation", mobile: mobile })} style={{marginVertical: 20, backgroundColor: "#ddd", paddingHorizontal: 50, paddingVertical: 10, borderRadius: 3}}>
           <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
             <Feather name="plus" size={25} color={Colors.BUTTON_COLOR} />
             <Text style={{fontSize: 16}}> Add New Place</Text>

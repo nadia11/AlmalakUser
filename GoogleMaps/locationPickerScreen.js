@@ -23,7 +23,7 @@ const latitudeDelta = 0.0922;
 const longitudeDelta= 0.0421;
 const default_region = { latitude: 23.8103, longitude: 90.4125, latitudeDelta: 0.0922, longitudeDelta: 0.0421 };
 
-export default class locationPickerScreen extends Component {
+export default class LocationPickerScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -177,7 +177,7 @@ export default class locationPickerScreen extends Component {
       }
       
       if(this.props.route.params.name === "addLocation" ) {
-        this.props.navigation.navigate('locationPickerSavedForm', {
+        this.props.navigation.navigate('LocationPickerSavedForm', {
           userLocation: this.state.userLocation, 
           place_id: this.state.place_id,
           mobile: this.props.route.params.mobile,

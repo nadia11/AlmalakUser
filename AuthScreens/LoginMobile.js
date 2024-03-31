@@ -273,9 +273,9 @@ export default class SignUpMobile extends Component {
                 <CustomStatusBar />
 
                 <ImageBackground source={require('../assets/login-bg.jpeg')} style={{ flex: 6, justifyContent: 'flex-start', alignItems: 'center', resizeMode: 'contain', height: SCREEN_HEIGHT-200, width: SCREEN_WIDTH, marginBottom: 120, paddingTop: 55 }}>
-                    <Animatable.View animation="zoomIn" iterationCount={1} style={{ height: 120, width: 120, alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff', padding: 15, borderRadius: 5, marginTop: 0 }}>
-                        <Image style={{ height: 130, width: 130, resizeMode: 'contain' }} source={require('../assets/logo.png')} />
-                    </Animatable.View>
+                    {/*<Animatable.View animation="zoomIn" iterationCount={1} style={{ height: 120, width: 120, alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff', padding: 15, borderRadius: 5, marginTop: 0 }}>*/}
+                    {/*    /!*<Image style={{ height: 130, width: 130, resizeMode: 'contain' }} source={require('../assets/logo.png')} />*!/*/}
+                    {/*</Animatable.View>*/}
                 </ImageBackground>
 
                 <Animatable.View animation="slideInUp" iterationCount={1} style={{ paddingBottom: 40, backgroundColor: "#fff" }}>

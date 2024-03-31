@@ -25,7 +25,7 @@ const defaultMessages = [
 ]
 
 
-export default class chatMessage extends Component {
+export default class ChatMessage extends Component {
   constructor(props) {
     super(props);
     this.state = {

@@ -31,8 +31,8 @@ import PrivacyPolicyModal from './AuthScreens/PrivacyPolicyModal';
 import HomeScreen from './AdminScreen/Home';
 import MapScreen from './GoogleMaps/MapScreen';
 import FareBreakdown from './GoogleMaps/FareBreakdown';
-import locationPickerScreen from './GoogleMaps/locationPickerScreen';
-import locationPickerSavedForm from './GoogleMaps/locationPickerSavedForm';
+import LocationPickerScreen from './GoogleMaps/locationPickerScreen';
+import LocationPickerSavedForm from './GoogleMaps/LocationPickerSavedForm';
 // import { SignIn, CreateAccount, Profile, isSignedIn } from './AuthScreens/Screens';
 import PaymentMethodsModal from './AdminScreen/PaymentMethods/PaymentMethodsModal';
 import AddNewCard from './AdminScreen/PaymentMethods/AddNewCard';
@@ -72,8 +72,8 @@ const AppStackScreen = () => (
   <AppStack.Navigator initialRouteName="Home" screenOptions={Options.APP_OPTIONS.SCREEN_OPTIONS} headerMode='float'>
     <AppStack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
     <AppStack.Screen name="MapScreen" component={MapScreen} options={{ headerShown: false }} />
-    <AppStack.Screen name="locationPickerScreen" component={locationPickerScreen} options={{ headerShown: false }} />
-    <AppStack.Screen name="locationPickerSavedForm" component={locationPickerSavedForm} options={{ title: 'Save Location', headerTransparent: false, headerRight: () => Options.APP_OPTIONS.HEADER_LOGO }} />
+    <AppStack.Screen name="LocationPickerScreen" component={LocationPickerScreen} options={{ headerShown: false }} />
+    <AppStack.Screen name="LocationPickerSavedForm" component={LocationPickerSavedForm} options={{ title: 'Save Location', headerTransparent: false, headerRight: () => Options.APP_OPTIONS.HEADER_LOGO }} />
     <AppStack.Screen name="FareBreakdown" component={FareBreakdown} options={{ title: 'Fare Breakdown', headerTransparent: false }} />
     <AppStack.Screen name="PaymentMethodsModal" component={PaymentMethodsModal} options={{ title: 'Payment Methods', headerTransparent: false, headerRight: () => Options.APP_OPTIONS.HEADER_LOGO }} />
     <AppStack.Screen name="AddNewCard" component={AddNewCard} options={{ title: 'Add New Card', headerTransparent: false, headerRight: () => Options.APP_OPTIONS.HEADER_LOGO }} />
