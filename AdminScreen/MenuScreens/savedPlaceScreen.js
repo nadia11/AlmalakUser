@@ -22,7 +22,7 @@ if (Platform.OS === "android" && UIManager.setLayoutAnimationEnabledExperimental
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-export default function savedPlaceScreen(props) {
+export default function SavedPlaceScreen(props) {
   const { navigation } = props;
   const [animating, setAnimating] = React.useState(false);
   const [homePlace, setHomePlace] = React.useState();

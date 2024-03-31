@@ -164,7 +164,7 @@ export default class RecentTransactionData extends Component {
           </View>
         </View>
 
-        <Text style={styles.amount}>{Number(item.total_earnings).toFixed(2)}</Text>
+        <Text style={styles.amount}>{Number(item?.payment_amount).toFixed(2)}</Text>
       </View>
     </View>
   )

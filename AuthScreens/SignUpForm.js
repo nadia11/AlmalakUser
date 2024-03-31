@@ -152,7 +152,7 @@ export const SignUpForm = (props) => {
               <View style={{flexDirection: 'row'}}>
                 <View>
                   <View style={[styles.textInput, {width: (SCREEN_WIDTH - 30)/2, marginRight: 10, paddingRight: 0}]}>
-                    <Ionicons name="md-transgender" size={20} style={styles.inputIcon} />
+                    <Ionicons name="transgender" size={20} style={styles.inputIcon} />
                     <Picker selectedValue={gender} onValueChange={(itemValue, itemIndex) => setGender(itemValue)}>
                       <Picker.Item label="--Gender--" value="" />
                       <Picker.Item label="Male" value="male" />

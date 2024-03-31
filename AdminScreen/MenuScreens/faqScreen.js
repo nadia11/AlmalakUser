@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, SafeAreaView, Image, ScrollView, Dimensions } from 'react-native';
 
-export default function faqScreen({ route }) {
+export default function FaqScreen({ route }) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Text>Faq & Questions</Text>

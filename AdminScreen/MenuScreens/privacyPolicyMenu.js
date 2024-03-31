@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, SafeAreaView, Image, ScrollView, Dimensions } from 'react-native';
 const { width, height } = Dimensions.get('window');
 
-export default function privacyPolicyMenu({ route }) {
+export default function PrivacyPolicyMenu({ route }) {
     return (
       <View style={styles.container}>
         <Text style={styles.title}>Privacy Policy</Text>

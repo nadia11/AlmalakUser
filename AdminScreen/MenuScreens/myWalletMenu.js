@@ -8,7 +8,7 @@ import axios from 'axios';
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
-export default function myWalletMenu({ route, navigation }) {
+export default function MyWalletMenu({ route, navigation }) {
   const [walletBalance, setWalletBalance] = React.useState(0.00);
 
   const getUserData = async () => {

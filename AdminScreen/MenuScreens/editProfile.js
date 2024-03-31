@@ -17,7 +17,7 @@ import { Colors } from '../../styles';
 import { BASE_URL } from '../../config/api';
 import { Options } from '../../config';
 
-export default function editProfile(props) {
+export default function EditProfile(props) {
   const { navigation } = props;
   const [animating, setAnimating] = React.useState(false);
   
@@ -271,7 +271,7 @@ export default function editProfile(props) {
 
               <View>
                 <View style={[styles.textInput, {paddingRight: 0}]}>
-                  <Ionicons name="md-transgender" size={20} style={styles.inputIcon} />
+                  <Ionicons name="transgender" size={20} style={styles.inputIcon} />
                   <Picker selectedValue={gender} onValueChange={(itemValue, itemIndex) => setGender(itemValue)}>
                     <Picker.Item label="--Select Gender--" value="" />
                     <Picker.Item label="Male" value="male" />

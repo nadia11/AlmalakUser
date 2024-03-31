@@ -14,7 +14,7 @@ const HistoryStack = createNativeStackNavigator();
 export default function HistoryStackScreen() {
   return (
     <HistoryStack.Navigator screenOptions={Options.APP_OPTIONS.SCREEN_OPTIONS}>
-      <HistoryStack.Screen name="createTopTabs" component={createTopTabs} options={{ title: "History", headerTintColor: '#fff', headerBackTitleVisible: false, headerRight: () => Options.APP_OPTIONS.HEADER_LOGO }} />
+      <HistoryStack.Screen name="createTopTabs" component={CreateTopTabs} options={{ title: "History", headerTintColor: '#fff', headerBackTitleVisible: false, headerRight: () => Options.APP_OPTIONS.HEADER_LOGO }} />
       <HistoryStack.Screen name="TripDetails" component={TripDetails} options={{ title: "Trip Details", headerBackTitleVisible: false,  headerRight: () => Options.APP_OPTIONS.HEADER_LOGO }} />
     </HistoryStack.Navigator>
   );
@@ -26,12 +26,21 @@ const makeRemoteRequest = async () => {
 };
 
 const MaterialTopTab = createMaterialTopTabNavigator();
-function createTopTabs() {
+function CreateTopTabs() {
   return(
-    <MaterialTopTab.Navigator tabBarOptions={{labelStyle: { fontSize: 12 }, style: { backgroundColor: '#fff' } }} activeTintColor="#EF0C14" indicatorStyle="#EF0C14" inactiveTintColor="#31455A" pressColor="#EF0C14">
-      <MaterialTopTab.Screen name="Trips" component={TripsHistory} />
-      <MaterialTopTab.Screen name="Food" component={FoodHistory} />
-      <MaterialTopTab.Screen name="Parcel" component={ParcelHistory} />
-    </MaterialTopTab.Navigator>
+      <MaterialTopTab.Navigator
+          screenOptions={{
+              tabBarLabelStyle: { fontSize: 12 }, // specifies the common label style
+              tabBarStyle: { backgroundColor: '#fff' }, // sets the background color of the tab bar
+              tabBarActiveTintColor: "#EF0C14", // defines the color of the label for the active tab
+              tabBarIndicatorStyle: { backgroundColor: "#EF0C14" }, // sets the style of the indicator for the active tab
+              tabBarInactiveTintColor: "#31455A", // specifies the color of the label for inactive tabs
+          }}
+      >
+          <MaterialTopTab.Screen name="Trips" component={TripsHistory} />
+          <MaterialTopTab.Screen name="Food" component={FoodHistory} />
+          <MaterialTopTab.Screen name="Parcel" component={ParcelHistory} />
+      </MaterialTopTab.Navigator>
+
   )
 }
