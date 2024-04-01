@@ -144,9 +144,9 @@ export default class MapScreen extends Component {
         error => geoErr(error),
         { enableHighAccuracy: enableHighAccuracy, timeout: 20000, maximumAge: 1000 }
       );
-      
+      try{
       //enableHighAccuracy: true, get more accurate location
-      this.watchId = navigator.geolocation.watchPosition(
+      this.watchId = Geolocation.watchPosition(
         position => {
           this.setState({
             latitude: position.coords.latitude,
@@ -161,13 +161,16 @@ export default class MapScreen extends Component {
         },
         error => geoErr(error),
         { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, distanceFilter: 10 }
-      );
+      );}
+      catch (e) {
+        console.log(e);
+      }
     }
   }
 
   
   componentWillUnmount() {
-    if (this.watchId) { navigator.geolocation.clearWatch(this.watchId); }
+    if (this.watchId) { Geolocation.clearWatch(this.watchId); }
     if (this.unsubscribe != null) this.unsubscribe();
   }
 

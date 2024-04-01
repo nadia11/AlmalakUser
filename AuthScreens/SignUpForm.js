@@ -100,6 +100,9 @@ export const SignUpForm = (props) => {
 
       if(response.data.code === 200){
           try {
+            await AsyncStorage.removeItem('userImage');
+            await AsyncStorage.removeItem('homePlace');
+            await AsyncStorage.removeItem('workPlace');
             await AsyncStorage.setItem('userName', fullName );
             await AsyncStorage.setItem('email', email);
             await AsyncStorage.setItem('userToken', '1');
@@ -146,7 +149,7 @@ export const SignUpForm = (props) => {
               <View>
                 <Feather name="lock" size={20} style={styles.inputIcon} />
                 <TextInput style={styles.textInput} placeholder="Enter Password" placeholderTextColor="rgba(0,0,0,.5)" returnKeyType="go" autoCorrect={false} secureTextEntry={showPass} underlineColorAndroid="transparent" onChangeText={val => setPassword( val )} value={password} ref={passwordRef} onSubmitEditing={(event) => dobRef.current.focus()} />
-                <TouchableOpacity style={styles.btnEye} onPress={ _handleShowPassword }><Ionicons name={press == false ? 'md-eye' : 'md-eye-off'} size={30} color="rgba(0,0,0,0.3)"></Ionicons></TouchableOpacity>
+                <TouchableOpacity style={styles.btnEye} onPress={ _handleShowPassword }><Ionicons name={press == false ? 'eye' : 'eye-off'} size={30} color="rgba(0,0,0,0.3)"></Ionicons></TouchableOpacity>
               </View>
 
               <View style={{flexDirection: 'row'}}>

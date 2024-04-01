@@ -1,5 +1,21 @@
 import React, { Component } from 'react';
-import { Text, View, ActivityIndicator, Button, StyleSheet, Dimensions, TouchableOpacity, Image, ToastAndroid, TextInput, Keyboard, ImageBackground, Linking, StatusBar } from 'react-native';
+import {
+  Text,
+  View,
+  ActivityIndicator,
+  Button,
+  StyleSheet,
+  Dimensions,
+  TouchableOpacity,
+  Image,
+  ToastAndroid,
+  TextInput,
+  Keyboard,
+  ImageBackground,
+  Linking,
+  StatusBar,
+  KeyboardAvoidingView, ScrollView
+} from 'react-native';
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -29,7 +45,7 @@ export default class LocationPickerScreen extends Component {
     this.state = {
       loading: true,
       isMapReady: false,
-      region: default_region,
+      region: null,
       marginTop: 1,
       homePlace: {},
       workPlace: {},
@@ -64,6 +80,7 @@ export default class LocationPickerScreen extends Component {
     });
   }
 
+
   async componentDidMount() {
     const { isConnected, type, isWifiEnabled } = await NetInfo.fetch();
     const enableHighAccuracy = (type === "wifi" || undefined) ? false : true;
@@ -96,6 +113,12 @@ export default class LocationPickerScreen extends Component {
     }
   }
 
+  componentDidUpdate(prevProps,prevState) {
+    // Compare if region has changed
+    if (this.state.region !== prevState.region) {
+      this.fetchAddress(); // Call if region updates
+    }
+  }
   onMapReady = () => {
     this.setState({ isMapReady: true, marginTop: 0 });
   }
@@ -292,18 +315,18 @@ export default class LocationPickerScreen extends Component {
 		    <StatusBar animated={true} backgroundColor="transparent" barStyle="light-content" showHideTransition="fade" translucent={true} />
 
         <View style={{ flex: 1 }}>
-          {!!this.state.region.latitude && !!this.state.region.longitude && (
+          {!!this.state.region?.latitude && !!this.state.region?.longitude && (
             <MapView style={{ ...styles.map, marginTop: this.state.marginTop }}
             provider={this.props.provider} customMapStyle={customMapStyle} 
             initialRegion={this.state.region} showsUserLocation={true} showsMyLocationButton={true}
             onMapReady={this.onMapReady} onRegionChange={() => {}} onRegionChangeComplete={this.onRegionChange} ref={map => {this.map = map}}>
 
+              <Marker.Animated coordinate={{ "latitude": this.state.region.latitude, "longitude": this.state.region.longitude }} style={styles.mapMarkerContainer} anchor={{x: 0.5, y: 1}}>
+                <Image source={require('../assets/images/markerOrigin.png')} resizeMode="contain" style={{ width: 40, height: 40 }} />
+              </Marker.Animated>
             </MapView>
           )}
-          
-          {/*<MapView.Marker.Animated coordinate={{ "latitude": this.state.region.latitude, "longitude": this.state.region.longitude }} style={styles.mapMarkerContainer} anchor={{x: 0.5, y: 1}}>*/}
-          {/*  <Image source={require('../assets/images/markerOrigin.png')} resizeMode="contain" style={{ width: 40, height: 40 }} />*/}
-          {/*</MapView.Marker.Animated>*/}
+
         </View>
 
         {this.state.region.latitude !== 0 && (
@@ -315,11 +338,13 @@ export default class LocationPickerScreen extends Component {
         <MaterialIcons style={styles.arrowBackButton} name="arrow-back" size={25} color="#000" onPress={() => this.props.navigation.goBack() } />
 
         <View style={styles.deatilSection}>
-          <TextInput ellipsizeMode='tail' numberOfLines={1} selectTextOnFocus={true} style={styles.locationTextInput} value={!this.state.regionChangeProgress ? this.state.userLocation : "Loading..."} onChangeText={location => { console.log(location); this.setState({ location, pointCoords: [] }); this.setState({userLocation:location});this.onSearchLocationDebounced(location); }} />
+          <TextInput ellipsizeMode='tail' numberOfLines={1} selectTextOnFocus={true} style={styles.locationTextInput} value={!this.state.regionChangeProgress ? this.state.userLocation : "Loading..."} onChangeText={location => { this.setState({ location, pointCoords: [] }); this.setState({userLocation:location});this.onSearchLocationDebounced(location); }} />
         </View>
-
-        <View style={styles.searchResultsWrapper}>
+        <KeyboardAvoidingView
+            behavior="height">
+        <ScrollView style={styles.searchResultsWrapper}>
           {this.state.locationPredictions.map(prediction => (
+
           <TouchableOpacity key={prediction.id} style={[styles.searchListItem, styles.searchListItemContent]} onPress={() => this.setLocationFromSearch(prediction.place_id)}>
             <FontAwesome5 name="map-marker-alt" size={22} color="#333" style={styles.searchLeftIcon} />
             <View>
@@ -327,9 +352,10 @@ export default class LocationPickerScreen extends Component {
               <Text style={styles.searchSecondaryText}>{prediction.structured_formatting.secondary_text}</Text>
             </View>
           </TouchableOpacity>
-          ))}
-        </View>
 
+          ))}
+        </ScrollView>
+        </KeyboardAvoidingView>
         <TouchableOpacity onPress={this.onLocationSelect} style={styles.btnContainer} disabled={this.state.regionChangeProgress}>
           <Text style={styles.buttonText}>PICK THIS LOCATION</Text>
         </TouchableOpacity>
@@ -394,7 +420,7 @@ const styles = StyleSheet.create({
   searchResultsWrapper: {
     position: "absolute",
     left: 0,
-    bottom: 500,
+    bottom: 300,
     zIndex: 999999,
     width: SCREEN_WIDTH,
     marginLeft: 0,

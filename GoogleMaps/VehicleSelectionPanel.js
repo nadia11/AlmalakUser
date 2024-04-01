@@ -126,7 +126,7 @@ export default function VehicleSelectionPanel(props) {
                   <Text style={styles.seatNumber}>{obj.seatNumber}</Text>
                   <Text style={styles.distance}>{obj.distance}</Text>
                   <Text style={styles.price} onPress={() => fareBreakdown(obj.title)}>৳{obj.price}</Text>
-                  <Text style={styles.duration}><Ionicons size={20} name="md-time" /> {obj.duration}</Text>
+                  <Text style={styles.duration}><Ionicons size={20} name="time" /> {obj.duration}</Text>
               </View>
             </TouchableOpacity>
           )

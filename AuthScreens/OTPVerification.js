@@ -24,7 +24,7 @@ export const OTPVerification = (props) => {
 
   const [counter, setCounter] = React.useState(59);
 
-  const [enteredOTP, setEnteredOTP] = React.useState(0);
+  const [enteredOTP, setEnteredOTP] = React.useState("");
   const [userToken, setUserToken] = React.useState(null);
   const [sMSReceived, setSMSReceived] = React.useState([]);
   const [animating, setAnimating] = React.useState(true);
@@ -131,7 +131,7 @@ export const OTPVerification = (props) => {
                        autoCorrect={false}
                        underlineColorAndroid="transparent"
                        onChangeText={val => setEnteredOTP( val )}
-                       value={enteredOTP}
+                       value={enteredOTP.toString()}
             />
           </View>
 
