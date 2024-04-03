@@ -23,10 +23,10 @@ import com.reactcommunity.rndatetimepicker.RNDateTimePickerPackage;
 import com.reactnativecommunity.geolocation.GeolocationPackage;
 // @react-native-community/netinfo
 import com.reactnativecommunity.netinfo.NetInfoPackage;
-// @react-native-community/picker
-import com.reactnativecommunity.picker.RNCPickerPackage;
 // @react-native-masked-view/masked-view
 import org.reactnative.maskedview.RNCMaskedViewPackage;
+// @react-native-picker/picker
+import com.reactnativecommunity.picker.RNCPickerPackage;
 // react-native-android-location-enabler
 import com.heanoria.library.reactnative.locationenabler.RNAndroidLocationEnablerPackage;
 // react-native-contacts
@@ -45,6 +45,8 @@ import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 import com.th3rdwave.safeareacontext.SafeAreaContextPackage;
 // react-native-screens
 import com.swmansion.rnscreens.RNScreensPackage;
+// react-native-sms-retriever
+import me.furtado.smsretriever.RNSmsRetrieverPackage;
 // react-native-sound
 import com.zmxv.RNSound.RNSoundPackage;
 // react-native-splash-screen
@@ -104,8 +106,8 @@ public class PackageList {
       new RNDateTimePickerPackage(),
       new GeolocationPackage(),
       new NetInfoPackage(),
-      new RNCPickerPackage(),
       new RNCMaskedViewPackage(),
+      new RNCPickerPackage(),
       new RNAndroidLocationEnablerPackage(),
       new ReactNativeContacts(),
       new RNDeviceInfo(),
@@ -115,6 +117,7 @@ public class PackageList {
       new ReactNativePushNotificationPackage(),
       new SafeAreaContextPackage(),
       new RNScreensPackage(),
+      new RNSmsRetrieverPackage(),
       new RNSoundPackage(),
       new SplashScreenReactPackage(),
       new SvgPackage(),

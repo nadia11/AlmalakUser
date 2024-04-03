@@ -4,7 +4,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const { width, height } = Dimensions.get('window');
 import axios from "axios";
-
+import SmsRetriever from 'react-native-sms-retriever';
 import OtpInputs from './OtpInputs';
 import { AuthContext } from './context';
 import CustomStatusBar from '../components/CustomStatusBar';
@@ -22,7 +22,7 @@ export const OTPVerification = (props) => {
   const { mobile, callingCode, OTP_ID, redirectScreen } = props.route.params;
   // {JSON.stringify(mobile)}
 
-  const [counter, setCounter] = React.useState(59);
+  const [counter, setCounter] = React.useState(99);
 
   const [enteredOTP, setEnteredOTP] = React.useState("");
   const [userToken, setUserToken] = React.useState(null);
@@ -30,6 +30,22 @@ export const OTPVerification = (props) => {
   const [animating, setAnimating] = React.useState(true);
   const [otpVerifyingSpinner, setOtpVerifyingSpinner] = React.useState(false);
   const [otpVerifySuccess, setOtpVerifySuccess] = React.useState(false);
+  const startSmsListener = async () => {
+    try {
+      const registered = await SmsRetriever.startSmsRetriever();
+      if (registered) {
+        await SmsRetriever.addSmsListener(event => {
+          console.log(event.message);
+          // Process the message content here, e.g., extracting OTP
+
+          // It's important to remove the listener when it's no longer needed
+          SmsRetriever.removeSmsListener();
+        });
+      }
+    } catch (error) {
+      console.log(JSON.stringify(error));
+    }
+  };
 
   React.useEffect(() => {
     counter > 0 && setTimeout(() => setCounter(counter - 1), 1000);
@@ -40,6 +56,18 @@ export const OTPVerification = (props) => {
       verify_otp();
     }
   }, [enteredOTP]);
+
+  React.useEffect(() => {
+
+    // Start the SMS listener when the component mounts
+    startSmsListener();
+
+    // Return a cleanup function that removes the listener
+    // This will be called when the component unmounts
+    return () => {
+      SmsRetriever.removeSmsListener();
+    };
+  }, [OTP_ID]);
 
   // React.useEffect(() => {
   // SMSReceiver.requestReadSmsPermission();
@@ -53,7 +81,7 @@ export const OTPVerification = (props) => {
       otp_code: enteredOTP
     })
         .then(res => {
-          console.log("Status: "+res?.data?.status);
+         // console.log("Status: "+res?.data?.status);
           //if(sms_status_array[res.data]) { Alert.alert(sms_status_array[res.data] + " Please contact to App Provider."); }
           if(res?.data?.status && res?.data?.status==="APPROVED"){
             setOtpVerifyingSpinner(true);
@@ -119,7 +147,7 @@ export const OTPVerification = (props) => {
 
         <View style={{ alignItems: 'center' }}>
           <Text style={{ color: '#555', marginBottom: 10, fontSize: 18, textAlign: 'center' }}>Enter 6-digit verification code sent to you at <Text style={{ fontWeight: 'bold', color: '#333' }}>{"+88"+mobile}</Text></Text>
-          { console.log("OTP: "+OTP_ID+" ---- Entered: "+enteredOTP) }
+
 
           <View style={styles.fieldContainer}>
             {/* <OtpInputs getOtp={(otp) => setEnteredOTP(otp)} SMSReceived={sMSReceived} /> */}

@@ -3,7 +3,7 @@ import { StyleSheet, Text, TextInput, View, TouchableOpacity, Dimensions, Alert,
 import Ionicons from "react-native-vector-icons/Ionicons";
 import axios from 'axios';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
-import {Picker} from '@react-native-community/picker';
+import {Picker} from '@react-native-picker/picker';
 
 import { Colors } from '../../styles';
 import { BASE_URL } from '../../config/api';
