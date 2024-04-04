@@ -1,5 +1,16 @@
 import React, { Component } from 'react';
-import { Text, View, ActivityIndicator, Alert, ToastAndroid, StyleSheet, TextInput, TouchableOpacity, Dimensions } from 'react-native';
+import {
+  Text,
+  View,
+  ActivityIndicator,
+  Alert,
+  ToastAndroid,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  Dimensions,
+  Button
+} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const { width, height } = Dimensions.get('window');
@@ -36,9 +47,12 @@ export const OTPVerification = (props) => {
       if (registered) {
         await SmsRetriever.addSmsListener(event => {
           console.log(event.message);
-          // Process the message content here, e.g., extracting OTP
-
-          // It's important to remove the listener when it's no longer needed
+          const otpMatch = event.message.match(/\d{6}/);
+          if (otpMatch) {
+            const otp = otpMatch[0];
+            console.log(`Extracted OTP: ${otp}`);
+            setEnteredOTP(otp);
+          }
           SmsRetriever.removeSmsListener();
         });
       }
