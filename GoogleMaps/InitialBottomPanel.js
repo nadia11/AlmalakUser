@@ -152,7 +152,7 @@ const InitialBottomPanel = function(props) {
           </Modal>
 
           {show && (
-            <DateTimePicker testID="dateTimePicker" timeZoneOffsetInMinutes={0} display="default"
+            <DateTimePicker testID="dateTimePicker" timeZoneOffsetInMinutes={0} display="spinner"
             value={date} mode={mode} onChange={setDateOnChange}
             is24Hour={false} dateFormat={"dayofweek day month"} firstDayOfWeek="Saturday"
             minimumDate={new Date()} maximumDate={new Date(new Date().setDate(new Date().getDate()+30))}

@@ -171,7 +171,7 @@ export const SignUpForm = (props) => {
               </View>
 
               {show && (
-                <DateTimePicker testID="dateTimePicker" timeZoneOffsetInMinutes={0} display="default" 
+                <DateTimePicker testID="dateTimePicker" timeZoneOffsetInMinutes={0} display="spinner"
                 value={date} mode={mode} onChange={setDateOnChange}
                 is24Hour={false} dateFormat={"dayofweek day month"} firstDayOfWeek="Saturday"
                 minimumDate={new Date().setFullYear(new Date().getFullYear()-80)} maximumDate={new Date()}
