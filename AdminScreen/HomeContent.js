@@ -1,5 +1,19 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions, Button, Image, SafeAreaView, ScrollView, RefreshControl, Animated, ToastAndroid } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Dimensions,
+  Button,
+  Image,
+  SafeAreaView,
+  ScrollView,
+  RefreshControl,
+  Animated,
+  ToastAndroid,
+  BackHandler
+} from 'react-native';
 
 import Feather from "react-native-vector-icons/Feather";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
@@ -16,24 +30,9 @@ const Grid_Columns = 4;
 
 import CustomStatusBar from '../components/CustomStatusBar';
 import Noticeboard from '../components/NoticeBoard';
-
-
-// export function HomeDetailsScreen() {
-//   return (
-//     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-//       <Text>Home Details!</Text>
-//     </View>
-//   );
-// }
-
-// export function HomeScreen2({ navigation }) {
-//   return (
-//     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-//       <Button title="Go to Home Details" onPress={() => navigation.openDrawer('DrawerNavigator')} />
-//     </View>
-//   );
-// }
-
+import InitialBottomPanel from "../GoogleMaps/InitialBottomPanel";
+import HomeWhereToScreen from "../GoogleMaps/HomeWhereTo";
+import MapScreen from "../GoogleMaps/MapScreen";
 
 export default function HomeScreen({ navigation }) {
 
@@ -44,7 +43,7 @@ export default function HomeScreen({ navigation }) {
   const [userImage, setuserImage] = React.useState('');
   const [walletBalance, setWalletBalance] = React.useState(0.00);
   const [showBalance, setShowBalance] = React.useState(null);
-
+  const [modalSearchMapVisible, setModalSearchMapVisible] = React.useState(false);
 
   const retrieveData = async () => {
     try {
@@ -65,14 +64,21 @@ export default function HomeScreen({ navigation }) {
     } 
     catch (error) { console.error(error); }
   }
-
+ const handleBackButtonClick = () =>{
+    setModalSearchMapVisible(false);
+  }
 
   
   const isFocused = useIsFocused();
+
   React.useEffect(() => {
     retrieveData();
   }, [isFocused]);
 
+  React.useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+
+  }, []);
   
   const [refreshing, setRefreshing] = React.useState(false);
   const wait = (timeout) => { 
@@ -106,92 +112,102 @@ export default function HomeScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <CustomStatusBar />
-
-      <ScrollView 
-      contentContainerStyle={{ width: SCREEN_WIDTH, flexGrow: 1, paddingBottom: 50 }} 
-      scrollsToTop={true} 
-      // refreshControl={<RefreshControl refreshing={refreshing} 
-      // onRefresh={onRefresh} colors={['#ff0000', '#399046', '#19AAF7', '#ffae00']} 
-      // progressBackgroundColor="#fff" 
-      // progressViewOffset={20} size={50} 
-      // tintColor="#EBEBEB" title="Loading..." />}
-      >
-        <View style={styles.profileCard}>
-          <View style={styles.profileImageWrap}>
-            {userImage !== "" && <Image source={{uri: userImage, crop: {left: 30, top: 30, width: 60, height: 60}}} style={{height: 70, width: 70, borderRadius: 35 }} /> }
-            {userImage == "" && <Feather name="user" size={50} color="#333" style={styles.profileImage} /> }
-          </View>
-          <View style={styles.profileRight}>
-            <Text style={styles.profileName}>{userName}</Text>
-            <Text style={styles.profileMobile}>{mobile}</Text>
-          </View>
-
-          <TouchableOpacity onPress={showBalanceHandle} style={{ position: 'absolute', right: 10, top: 45 }}>
-            {!showBalance && (
-              <Animated.View style={{ height: 35, backgroundColor: '#fff', borderRadius: 40, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15 }}>
-                <Text style={{color: Colors.BUTTON_COLOR, fontSize: 20, fontWeight: 'bold'}}>৳</Text>
-                <Text style={{color: '#333', fontSize: 14}}> Tap for Balance</Text>
-              </Animated.View>
-            )}
-
-            {showBalance && (
-              <View style={{ height: 35, backgroundColor: '#fff', borderRadius: 40, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 10 }}>
-                <Text style={{color: Colors.BUTTON_COLOR, fontSize: 20, fontWeight: 'bold'}}>৳</Text>
-                <Text style={{color: '#333', fontSize: 14, marginLeft: 5}}>{Number(walletBalance).toFixed(2)}</Text>
+      {modalSearchMapVisible &&
+          <MapScreen/>
+      }
+      {!modalSearchMapVisible &&
+          <ScrollView
+              contentContainerStyle={{ width: SCREEN_WIDTH, flexGrow: 1, paddingBottom: 50 }}
+              scrollsToTop={true}
+              // refreshControl={<RefreshControl refreshing={refreshing}
+              // onRefresh={onRefresh} colors={['#ff0000', '#399046', '#19AAF7', '#ffae00']}
+              // progressBackgroundColor="#fff"
+              // progressViewOffset={20} size={50}
+              // tintColor="#EBEBEB" title="Loading..." />}
+          >
+            <View style={styles.profileCard}>
+              <View style={styles.profileImageWrap}>
+                {userImage !== "" && <Image source={{uri: userImage, crop: {left: 30, top: 30, width: 60, height: 60}}} style={{height: 70, width: 70, borderRadius: 35 }} /> }
+                {userImage == "" && <Feather name="user" size={50} color="#333" style={styles.profileImage} /> }
               </View>
-            )}
-          </TouchableOpacity>
-        </View>
-        
-        {/*<Noticeboard color="green" />*/}
+              <View style={styles.profileRight}>
+                <Text style={styles.profileName}>{userName}</Text>
+                <Text style={styles.profileMobile}>{mobile}</Text>
+              </View>
 
-        <View style={styles.sectionContainer}>
-          <Text style={styles.title}>Services</Text>
+              <TouchableOpacity onPress={showBalanceHandle} style={{ position: 'absolute', right: 10, top: 45 }}>
+                {!showBalance && (
+                    <Animated.View style={{ height: 35, backgroundColor: '#fff', borderRadius: 40, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15 }}>
+                      <Text style={{color: Colors.BUTTON_COLOR, fontSize: 20, fontWeight: 'bold'}}>৳</Text>
+                      <Text style={{color: '#333', fontSize: 14}}> Tap for Balance</Text>
+                    </Animated.View>
+                )}
 
-          <View style={styles.GridViewBlockStyle}>
-            <TouchableOpacity onPress={() => navigation.navigate('MapScreen')} style={styles.GridViewBlockButton}>
-              <FontAwesome5 name="motorcycle" size={40} color="#00A968" /><Text>Vehicle</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity onPress={() => ToastAndroid.show('Comming Soon...', ToastAndroid.SHORT)} style={styles.GridViewBlockButton}>
-              <FontAwesome5 name="hamburger" size={40} color="#00BCD4" /><Text>Food</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity onPress={() => ToastAndroid.show('Comming Soon...', ToastAndroid.SHORT)} style={styles.GridViewBlockButton}>
-              <FontAwesome5 name="truck-moving" size={40} color="#F53D3D" /><Text>Parcel</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        <View style={styles.sectionContainer}>
-          <Text style={styles.title}>Your Favourite Locations</Text>
-          <TouchableOpacity onPress={() => navigation.navigate('LocationPickerScreen', {name: "homePlace", geometry: (homePlace ? homePlace.geometry : "")})} style={styles.listItem}>
-            <Feather name="home" size={25} color={homePlace ? "#007bff" : "#000"} style={styles.leftIcon} />
-            <View style={styles.listItemContent}>
-              <Text style={styles.locationTitle}>Home</Text>
-              <Text ellipsizeMode='tail' numberOfLines={1} style={{width: SCREEN_WIDTH-110}}>{homePlace ? homePlace.secondary_text : "Set Location"}</Text>
+                {showBalance && (
+                    <View style={{ height: 35, backgroundColor: '#fff', borderRadius: 40, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 10 }}>
+                      <Text style={{color: Colors.BUTTON_COLOR, fontSize: 20, fontWeight: 'bold'}}>৳</Text>
+                      <Text style={{color: '#333', fontSize: 14, marginLeft: 5}}>{Number(walletBalance).toFixed(2)}</Text>
+                    </View>
+                )}
+              </TouchableOpacity>
             </View>
-          </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => navigation.navigate('LocationPickerScreen', {name: "workPlace", geometry: (workPlace ? workPlace.geometry : "")})} style={styles.listItem}>
-            <Feather name="briefcase" size={25} color={workPlace ? "#007bff" : "#000"} style={styles.leftIcon} />
-            <View style={[styles.listItemContent, styles.listItemContentLast]}>
-              <Text style={styles.locationTitle}>Work</Text>
-              <Text ellipsizeMode='tail' numberOfLines={1} style={{width: SCREEN_WIDTH-110}}>{workPlace ? workPlace.secondary_text : "Set Location"}</Text>
+            {/*<Noticeboard color="green" />*/}
+            <View style={styles.sectionContainer}>
+
+              <InitialBottomPanel showSearchModal={() =>  setModalSearchMapVisible(true)}/>
+
             </View>
-          </TouchableOpacity>
-        </View>
 
-        <View style={styles.sectionContainer}>
-          <Text style={styles.title}>Invite Friends & Get Discount on Ride</Text>
-          <Image style={{ height: 150, width: 400, resizeMode: 'contain' }} source={require('../assets/welcome-image.png')} />
-          <Text style={{textAlign: 'justify', paddingHorizontal: 20, marginVertical: 10}}>Share this code to you Friends. When they will use this code on Ride & complete thier Ride, then you will get discount.</Text>
+            <View style={styles.sectionContainer}>
+              <Text style={styles.title}>Services</Text>
 
-          <TouchableOpacity style={styles.btnOutline} onPress={() => navigation.navigate('InviteFriends', {mobile: mobile})}>
-            <Text style={styles.btnOutlineText}>Invite Friends</Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
+              <View style={styles.GridViewBlockStyle}>
+                <TouchableOpacity onPress={() => navigation.navigate('MapScreen')} style={styles.GridViewBlockButton}>
+                  <FontAwesome5 name="motorcycle" size={40} color="#00A968" /><Text>Vehicle</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => ToastAndroid.show('Comming Soon...', ToastAndroid.SHORT)} style={styles.GridViewBlockButton}>
+                  <FontAwesome5 name="hamburger" size={40} color="#00BCD4" /><Text>Food</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => ToastAndroid.show('Comming Soon...', ToastAndroid.SHORT)} style={styles.GridViewBlockButton}>
+                  <FontAwesome5 name="truck-moving" size={40} color="#F53D3D" /><Text>Parcel</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+
+            <View style={styles.sectionContainer}>
+              <Text style={styles.title}>Your Favourite Locations</Text>
+              <TouchableOpacity onPress={() => navigation.navigate('LocationPickerScreen', {name: "homePlace", geometry: (homePlace ? homePlace.geometry : "")})} style={styles.listItem}>
+                <Feather name="home" size={25} color={homePlace ? "#007bff" : "#000"} style={styles.leftIcon} />
+                <View style={styles.listItemContent}>
+                  <Text style={styles.locationTitle}>Home</Text>
+                  <Text ellipsizeMode='tail' numberOfLines={1} style={{width: SCREEN_WIDTH-110}}>{homePlace ? homePlace.secondary_text : "Set Location"}</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => navigation.navigate('LocationPickerScreen', {name: "workPlace", geometry: (workPlace ? workPlace.geometry : "")})} style={styles.listItem}>
+                <Feather name="briefcase" size={25} color={workPlace ? "#007bff" : "#000"} style={styles.leftIcon} />
+                <View style={[styles.listItemContent, styles.listItemContentLast]}>
+                  <Text style={styles.locationTitle}>Work</Text>
+                  <Text ellipsizeMode='tail' numberOfLines={1} style={{width: SCREEN_WIDTH-110}}>{workPlace ? workPlace.secondary_text : "Set Location"}</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+
+            <View style={styles.sectionContainer}>
+              <Text style={styles.title}>Invite Friends & Get Discount on Ride</Text>
+              <Image style={{ height: 150, width: 400, resizeMode: 'contain' }} source={require('../assets/welcome-image.png')} />
+              <Text style={{textAlign: 'justify', paddingHorizontal: 20, marginVertical: 10}}>Share this code to you Friends. When they will use this code on Ride & complete thier Ride, then you will get discount.</Text>
+
+              <TouchableOpacity style={styles.btnOutline} onPress={() => navigation.navigate('InviteFriends', {mobile: mobile})}>
+                <Text style={styles.btnOutlineText}>Invite Friends</Text>
+              </TouchableOpacity>
+            </View>
+          </ScrollView>
+      }
+
     </SafeAreaView>
   );
 }

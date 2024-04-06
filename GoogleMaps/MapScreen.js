@@ -81,7 +81,7 @@ export default class MapScreen extends Component {
       tripNumber: "",
 
       initialBottomPanelShow: true,
-      modalSearchMapVisible: false,
+      modalSearchMapVisible: true,
       distance: {text: '', value: ''},
       duration: {text: '', value: ''},
       selectVehicleModal: false,
@@ -578,7 +578,7 @@ export default class MapScreen extends Component {
       
       if(this.state.selectVehicleModal) {
         selectVehicleModal = (
-          <VehicleSelectionPanel 
+          <VehicleSelectionPanel
             {...this.props} 
             onRequestDriver={(distance, duration, fare, paymentMethod, promoCode ) => this.requestDriver(distance, duration, fare, paymentMethod, promoCode)} 
             buttonText="REQUEST RIDE" 
@@ -627,9 +627,9 @@ export default class MapScreen extends Component {
 		    <StatusBar animated={true} backgroundColor="transparent" barStyle="llight-content" showHideTransition="fade" translucent={true} />
         <BatteryLowMessage {...this.props} />
         
-        {this.state.initialBottomPanelShow && (
-          <InitialBottomPanel showSearchModal={() => this.setState({ modalSearchMapVisible: true }) } /> 
-        )}
+        {/*{this.state.initialBottomPanelShow && (*/}
+        {/*  <InitialBottomPanel showSearchModal={() => this.setState({ modalSearchMapVisible: true }) } /> */}
+        {/*)}*/}
         
         {this.state.locationButton && (
           <CurrentLocationButton cb={() => this.centerMap() } bottom={900} />
