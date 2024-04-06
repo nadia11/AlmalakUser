@@ -71,6 +71,7 @@ const AppStack = createNativeStackNavigator();
 const AppStackScreen = () => (
   <AppStack.Navigator initialRouteName="Home" screenOptions={Options.APP_OPTIONS.SCREEN_OPTIONS} headerMode='float'>
     <AppStack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+    <AppStack.Screen name="MapScreen" component={MapScreen} options={{ headerShown: true,headerTintColor: '#fff', headerBackTitleVisible: true, }} />
     <AppStack.Screen name="LocationPickerScreen" component={LocationPickerScreen} options={{ headerShown: false }} />
     <AppStack.Screen name="LocationPickerSavedForm" component={LocationPickerSavedForm} options={{ title: 'Save Location', headerTransparent: false, headerRight: () => Options.APP_OPTIONS.HEADER_LOGO }} />
     <AppStack.Screen name="FareBreakdown" component={FareBreakdown} options={{ title: 'Fare Breakdown', headerTransparent: false }} />

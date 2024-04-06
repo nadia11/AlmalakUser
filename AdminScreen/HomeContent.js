@@ -79,6 +79,10 @@ export default function HomeScreen({ navigation }) {
     BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
 
   }, []);
+  React.useEffect(() => {
+   return()=> setModalSearchMapVisible(false);
+
+  }, []);
   
   const [refreshing, setRefreshing] = React.useState(false);
   const wait = (timeout) => { 
@@ -115,7 +119,7 @@ export default function HomeScreen({ navigation }) {
       {modalSearchMapVisible &&
           <MapScreen/>
       }
-      {!modalSearchMapVisible &&
+      {modalSearchMapVisible===false &&
           <ScrollView
               contentContainerStyle={{ width: SCREEN_WIDTH, flexGrow: 1, paddingBottom: 50 }}
               scrollsToTop={true}

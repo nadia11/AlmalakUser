@@ -640,11 +640,12 @@ export default class MapScreen extends Component {
             <ActivityIndicator size="large" color={Colors.BUTTON_COLOR} />
           </View>
         )}
+
         {this.state.latitude !== 0 && (
             <MapView style={styles.mapStyle} provider={PROVIDER_GOOGLE}
                      region={{ latitude: this.state.latitude, longitude: this.state.longitude, latitudeDelta: this.state.latitudeDelta, longitudeDelta: this.state.longitudeDelta }}
                      showsUserLocation={true} followsUserLocation={true} showsMyLocationButton={true}
-                     loadingEnabled={false} loadingIndicatorColor="#666666" loadingBackgroundColor="#eeeeee"
+                     loadingEnabled={true} loadingIndicatorColor="#666666" loadingBackgroundColor="#eeeeee"
                      zoomEnabled={true} zoomControlEnabled={true} showsTraffic={this.state.showsTraffic}
                      showsCompass={true} rotateEnabled={false} ref={map => {this.map = map}}
             >
