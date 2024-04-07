@@ -6,11 +6,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 const SCREEN_WIDTH = Dimensions.get('window').width;
 import { Colors, Typography } from '../../styles';
-
+import '../../i18n';
+import {useTranslation} from 'react-i18next';
 export default function LanguageScreen(props) {
   const [checked, setChecked] = React.useState();
   const [language, setLanguage] = React.useState(null);
-
+  const {t, i18n} = useTranslation();
   const getLan = async () => {
     try {
       const langStorage = await AsyncStorage.getItem('langStorage')
@@ -21,10 +22,14 @@ export default function LanguageScreen(props) {
   React.useEffect(() => {
     getLan()
   }, []);
+  React.useEffect(() => {
+    i18n.changeLanguage(language === 'arabic' ? 'ar' : 'en');
+  }, [language]);
 
   const acceptHandler = async () => {
     try {
       await AsyncStorage.setItem('langStorage', language);
+
     } catch (error) { console.error(error); }
 
     ToastAndroid.showWithGravity("Language Saved.", ToastAndroid.SHORT, ToastAndroid.BOTTOM);
@@ -51,6 +56,9 @@ export default function LanguageScreen(props) {
         <TouchableOpacity style={styles.button} onPress={ acceptHandler }>
           <Text style={styles.btnText}>Save</Text>
         </TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={ acceptHandler }>
+        <Text style={styles.btnText}>{t('dummy_text')}</Text>
+      </TouchableOpacity>
     </View>
   );
 }
