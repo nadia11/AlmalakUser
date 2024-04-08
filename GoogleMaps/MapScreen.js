@@ -662,7 +662,7 @@ export default class MapScreen extends Component {
 
         <Modal isVisible={this.state.modalSearchMapVisible} animationType='slide'
           //onSwipeStart={() => this.setState({ modalSearchMapVisible: false })} swipeDirection={['up','down']} onSwipeComplete={() => this.setState({ modalSearchMapVisible: false })}
-          backdropColor="white" backdropOpacity={1} onBackdropPress={() => this.setState({ modalSearchMapVisible: false })} onBackButtonPress={() => this.setState({ modalSearchMapVisible: false })}
+          backdropColor="white" backdropOpacity={1} onBackdropPress={() => this.setState({ modalSearchMapVisible: false })} onBackButtonPress={()=>{this.setState({ modalSearchMapVisible: false });this.props.navigation.navigate("Home")}}
           deviceWidth={SCREEN_WIDTH} deviceHeight={SCREEN_HEIGHT} propagateSwipe={true}>
           <View style={{flex: 1, backgroundColor: '#fff', padding: 0}}>
             {/* <View style={{width: '100%', backgroundColor: '#fff', paddingBottom: 5}}>

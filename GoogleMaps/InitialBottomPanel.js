@@ -114,13 +114,13 @@ const InitialBottomPanel = function(props) {
   }
 
   return (
-    <View style={styles.container}>
+    <View>
         <Animatable.View animation="slideInUp" iterationCount={1} delay={1000} useNativeDriver={true}>
           <Text style={styles.greetings}>{renderGreetingMsg()}, {userName}</Text>
         </Animatable.View>
 
         <Animatable.View animation="slideInUp" iterationCount={1} delay={300} useNativeDriver={true} style={styles.innerContainer}>
-          <TouchableOpacity style={styles.whereTo} onPress={() => props.showSearchModal()}>
+          <TouchableOpacity style={styles.whereTo} onPress={()=>props.navigation.navigate("MapScreen")}>
             <Text style={{fontFamily: 'sans-serif', fontSize: 20, color: '#000'}}>Where to?</Text>
           </TouchableOpacity>
 

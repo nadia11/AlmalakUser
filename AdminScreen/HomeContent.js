@@ -116,10 +116,8 @@ export default function HomeScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <CustomStatusBar />
-      {modalSearchMapVisible &&
-          <MapScreen/>
-      }
-      {modalSearchMapVisible===false &&
+
+
           <ScrollView
               contentContainerStyle={{ width: SCREEN_WIDTH, flexGrow: 1, paddingBottom: 50 }}
               scrollsToTop={true}
@@ -158,9 +156,7 @@ export default function HomeScreen({ navigation }) {
 
             {/*<Noticeboard color="green" />*/}
             <View style={styles.sectionContainer}>
-
-              <InitialBottomPanel showSearchModal={() =>  setModalSearchMapVisible(true)}/>
-
+              <InitialBottomPanel showSearchModal={() =>  setModalSearchMapVisible(true)} navigation={navigation}/>
             </View>
 
             <View style={styles.sectionContainer}>
@@ -210,7 +206,7 @@ export default function HomeScreen({ navigation }) {
               </TouchableOpacity>
             </View>
           </ScrollView>
-      }
+
 
     </SafeAreaView>
   );
