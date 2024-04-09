@@ -44,7 +44,7 @@ export default function EditProfile(props) {
       setFullName( response.data.user_name );
       setGender( response.data.gender );
       setDate( date_of_birth );
-      setDateOfBirth( response.data.date_of_birth );
+      setDateOfBirth(moment(response.data.date_of_birth.toString()).format('DD/MM/YYYY'));
       setUserImage( response.data.user_image ? response.data.user_image : null );
     });
   }
@@ -54,12 +54,12 @@ export default function EditProfile(props) {
   
 
   const setDateOnChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
+    let currentDate = selectedDate || date;
     setShow(Platform.OS === 'ios' ? true : false);
     
     if(event.type == "set") {
       setDate(currentDate);
-      setDateOfBirth(currentDate);
+      setDateOfBirth(moment(currentDate).format('DD/MM/YYYY'));
     } else {
       console.log("cancel button clicked");
     }
@@ -107,7 +107,7 @@ export default function EditProfile(props) {
         mobile: props.route.params.mobile,
         user_name: fullName,
         gender: gender,
-        date_of_birth: moment(dateOfBirth).format('DD/MM/YYYY'),
+        date_of_birth: dateOfBirth,
         user_image: base64Image,
         file_name: fileName
       },
@@ -162,7 +162,15 @@ export default function EditProfile(props) {
       ToastAndroid.show("Error: "+err, ToastAndroid.SHORT);
     }
   };
+  const handleDateInput = (text) => {
 
+    const parsedDate = moment(text, 'DD/MM/YYYY', true);
+    if (parsedDate.isValid()) {
+      setDateOfBirth(text);
+    } else {
+      setDateOfBirth(text);
+    }
+  };
   const getPhotoFromCamera = () => {
     setUploadImageModal(false);
 
@@ -308,7 +316,7 @@ export default function EditProfile(props) {
               
               <View>
                 <Feather name="calendar" size={20} style={styles.inputIcon} />
-                <TextInput style={styles.textInput} placeholder="Date of birth" placeholderTextColor="rgba(0,0,0,.5)" keyboardType="number-pad" returnKeyType="go" autoCorrect={false} underlineColorAndroid="transparent" onChangeText={val => setDateOfBirth( val )} value={dateOfBirth ? moment(dateOfBirth).format('DD/MM/YYYY') : ""} onFocus={showDatepicker} />
+                <TextInput style={styles.textInput} placeholder="Date of birth" placeholderTextColor="rgba(0,0,0,.5)"  returnKeyType="go" autoCorrect={false} underlineColorAndroid="transparent" onChangeText={handleDateInput} value={dateOfBirth ?dateOfBirth : ""} onFocus={showDatepicker} />
               </View>
 
               {show && (
