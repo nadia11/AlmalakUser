@@ -73,18 +73,43 @@ export default function EditProfile(props) {
   const showDatepicker = () => {
     showMode('date');
   };
-
+  const getImageBase64 = async (url) => {
+    try {
+      const response = await fetch(url);
+      const blob = await response.blob();
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      });
+    } catch (error) {
+      console.error('Error fetching or converting image:', error);
+      return null;
+    }
+  };
   const handleSubmit = async () => {
     setAnimating( true );
-    // console.log(fullName + props.route.params.mobile + gender + moment(dateOfBirth).format('DD/MM/YYYY'));
-    //console.log("uri: "+ uploadedImage.uri + ", filename: "+uploadedImage.fileName + ", fileSize: "+uploadedImage.fileSize + ", width: "+response.width + ", height: "+response.height + ", isVertical: "+response.isVertical + ", path: "+response.path + ", type: " + response.type + ", timestamp: "+response.timestamp);
+    let base64Image = '';
+    let fileName = 'no_image';
+
+    if (userImage) {
+      base64Image = await getImageBase64(userImage);
+      fileName = userImage.split('/').pop(); // Extracts file name from URL
+    }
+
+    // Fallback for uploadedImage if userImage isn't available
+    if (!base64Image && uploadedImage?.assets[0]?.base64) {
+      base64Image = 'data:image/jpeg;base64,' + uploadedImage?.assets[0]?.base64;
+      fileName = uploadedImage?.assets[0]?.fileName || 'no_image';
+    }
     await axios.post(BASE_URL+'/update-profile-form', {
         mobile: props.route.params.mobile,
         user_name: fullName,
         gender: gender,
         date_of_birth: moment(dateOfBirth).format('DD/MM/YYYY'),
-        user_image: 'data:image/jpeg;base64,' + uploadedImage?.assets[0]?.base64,
-        file_name: uploadedImage?.assets[0]?.fileName === undefined ? "no_image" : uploadedImage?.assets[0]?.fileName,
+        user_image: base64Image,
+        file_name: fileName
       },
       {onUploadProgress: progressEvent => { 
         console.log('Upload Progress: ' + Math.round(progressEvent.loaded / progressEvent.total * 100) + "%"); 
