@@ -143,9 +143,9 @@ export default class LocationPickerScreen extends Component {
           }
         }
         
-        if(district !== "Dhaka District" || district == "") {
-          alert('No Service in this District.');
-        }
+        // if(district !== "Dhaka District" || district == "") {
+        //   alert('No Service in this District.');
+        // }
 
         let userLocation = '';
         let place_id = '';
