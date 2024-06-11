@@ -152,7 +152,7 @@ export default class MapScreen extends Component {
         position => {
           this.setState({
             latitude: position.coords.latitude,
-            longitude: 13.22752841137886,
+            longitude: position.coords.longitude,
             region: { 
               latitude: position.coords.latitude,
               longitude: position.coords.longitude,
@@ -162,7 +162,7 @@ export default class MapScreen extends Component {
           });
         },
         error => geoErr(error),
-        { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, distanceFilter: 10 }
+        // { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, distanceFilter: 10 }
       );}
       catch (e) {
         console.log(e);
@@ -531,9 +531,9 @@ export default class MapScreen extends Component {
   }
   
   centerMap() {
-    this.map.animateToRegion({ latitude: this.state.latitude, longitude: this.state.longitude, latitudeDelta: this.state.region.latitudeDelta, longitudeDelta: this.state.region.longitudeDelta }, 700);
-    // this.map.fitToCoordinates(destinationCoords, { edgePadding: {top: 20, bottom: 150, left: 20, right: 20}, animated: true });
-    this.setState({ locationButton: false });
+    this.map.animateToRegion({ latitude: this.state.region.latitude, longitude: this.state.region.longitude, latitudeDelta: this.state.region.latitudeDelta, longitudeDelta: this.state.region.longitudeDelta }, 700);
+   this.map.fitToCoordinates(this.state.destinationCoords, { edgePadding: {top: 20, bottom: 150, left: 20, right: 20}, animated: true });
+    //this.setState({ locationButton: false });
   }
 
   render() {
@@ -659,14 +659,28 @@ export default class MapScreen extends Component {
         )}
 
         {this.state.latitude !== 0 && (
-            <MapView style={styles.mapStyle} provider={PROVIDER_GOOGLE}
-                     region={{ latitude: this.state.latitude, longitude: this.state.longitude, latitudeDelta: this.state.latitudeDelta, longitudeDelta: this.state.longitudeDelta }}
-                     showsUserLocation={true} followsUserLocation={true} showsMyLocationButton={true}
-                     loadingEnabled={true} loadingIndicatorColor="#666666" loadingBackgroundColor="#eeeeee"
-                     zoomEnabled={true} zoomControlEnabled={true} showsTraffic={this.state.showsTraffic}
-                     showsCompass={true} rotateEnabled={false} ref={map => {this.map = map}}
+            <MapView
+                style={styles.mapStyle}
+                provider={PROVIDER_GOOGLE}
+                region={{
+                  latitude: this.state.latitude,
+                  longitude: this.state.longitude,
+                  latitudeDelta: this.state.latitudeDelta,
+                  longitudeDelta: this.state.longitudeDelta,
+                }}
+                showsUserLocation={true}
+                followsUserLocation={true}
+                showsMyLocationButton={true}
+                loadingEnabled={true}
+                loadingIndicatorColor="#666666"
+                loadingBackgroundColor="#eeeeee"
+                zoomEnabled={true}
+                zoomControlEnabled={true}
+                showsTraffic={this.state.showsTraffic}
+                showsCompass={true}
+                rotateEnabled={false}
+                ref={map => { this.map = map; }}
             >
-              {/*{this.state.pointCoords && <Polyline coordinates={this.state.pointCoords} strokeWidth={3} strokeColor="red" /> }*/}
               {this.state.pointCoords && (
                   <Polyline
                       coordinates={this.state.pointCoords}
@@ -682,8 +696,6 @@ export default class MapScreen extends Component {
                   title="Current Location"
                   description="You are here"
               />
-              {/*/!*{endMarker}*!/*/}
-              {/*{startMarker}*/}
             </MapView>
         )}
 
