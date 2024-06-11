@@ -140,14 +140,14 @@ export default function HomeScreen({ navigation }) {
               <TouchableOpacity onPress={showBalanceHandle} style={{ position: 'absolute', right: 10, top: 45 }}>
                 {!showBalance && (
                     <Animated.View style={{ height: 35, backgroundColor: '#fff', borderRadius: 40, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15 }}>
-                      <Text style={{color: Colors.BUTTON_COLOR, fontSize: 20, fontWeight: 'bold'}}>৳</Text>
+                      <Text style={{color: Colors.BUTTON_COLOR, fontSize: 20, fontWeight: 'bold'}}>LYD</Text>
                       <Text style={{color: '#333', fontSize: 14}}> Tap for Balance</Text>
                     </Animated.View>
                 )}
 
                 {showBalance && (
                     <View style={{ height: 35, backgroundColor: '#fff', borderRadius: 40, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 10 }}>
-                      <Text style={{color: Colors.BUTTON_COLOR, fontSize: 20, fontWeight: 'bold'}}>৳</Text>
+                      <Text style={{color: Colors.BUTTON_COLOR, fontSize: 20, fontWeight: 'bold'}}>LYD</Text>
                       <Text style={{color: '#333', fontSize: 14, marginLeft: 5}}>{Number(walletBalance).toFixed(2)}</Text>
                     </View>
                 )}
@@ -159,23 +159,23 @@ export default function HomeScreen({ navigation }) {
               <InitialBottomPanel showSearchModal={() =>  setModalSearchMapVisible(true)} navigation={navigation}/>
             </View>
 
-            <View style={styles.sectionContainer}>
-              <Text style={styles.title}>Services</Text>
+            {/*<View style={styles.sectionContainer}>*/}
+            {/*  <Text style={styles.title}>Services</Text>*/}
 
-              <View style={styles.GridViewBlockStyle}>
-                <TouchableOpacity onPress={() => navigation.navigate('MapScreen')} style={styles.GridViewBlockButton}>
-                  <FontAwesome5 name="motorcycle" size={40} color="#00A968" /><Text>Vehicle</Text>
-                </TouchableOpacity>
+            {/*  <View style={styles.GridViewBlockStyle}>*/}
+            {/*    <TouchableOpacity onPress={() => navigation.navigate('MapScreen')} style={styles.GridViewBlockButton}>*/}
+            {/*      <FontAwesome5 name="motorcycle" size={40} color="#00A968" /><Text>Vehicle</Text>*/}
+            {/*    </TouchableOpacity>*/}
 
-                <TouchableOpacity onPress={() => ToastAndroid.show('Comming Soon...', ToastAndroid.SHORT)} style={styles.GridViewBlockButton}>
-                  <FontAwesome5 name="hamburger" size={40} color="#00BCD4" /><Text>Food</Text>
-                </TouchableOpacity>
+            {/*    <TouchableOpacity onPress={() => ToastAndroid.show('Comming Soon...', ToastAndroid.SHORT)} style={styles.GridViewBlockButton}>*/}
+            {/*      <FontAwesome5 name="hamburger" size={40} color="#00BCD4" /><Text>Food</Text>*/}
+            {/*    </TouchableOpacity>*/}
 
-                <TouchableOpacity onPress={() => ToastAndroid.show('Comming Soon...', ToastAndroid.SHORT)} style={styles.GridViewBlockButton}>
-                  <FontAwesome5 name="truck-moving" size={40} color="#F53D3D" /><Text>Parcel</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
+            {/*    <TouchableOpacity onPress={() => ToastAndroid.show('Comming Soon...', ToastAndroid.SHORT)} style={styles.GridViewBlockButton}>*/}
+            {/*      <FontAwesome5 name="truck-moving" size={40} color="#F53D3D" /><Text>Parcel</Text>*/}
+            {/*    </TouchableOpacity>*/}
+            {/*  </View>*/}
+            {/*</View>*/}
 
             <View style={styles.sectionContainer}>
               <Text style={styles.title}>Your Favourite Locations</Text>

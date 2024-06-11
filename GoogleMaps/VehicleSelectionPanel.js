@@ -102,10 +102,10 @@ export default function VehicleSelectionPanel(props) {
 
   const fareBreakdown = (vehicle) => {
     props.navigation.navigate('fareBreakdown', {
-      baseFare: "BDT "+fareFromDatabase[vehicle].baseFare,
-      minimumFare: "BDT "+fareFromDatabase[vehicle].baseFare,
-      perMinute: "BDT "+fareFromDatabase[vehicle].timeRate,
-      perKilometer: "BDT "+fareFromDatabase[vehicle].distanceRatePerKm
+      baseFare: "LYD "+fareFromDatabase[vehicle].baseFare,
+      minimumFare: "LYD "+fareFromDatabase[vehicle].baseFare,
+      perMinute: "LYD "+fareFromDatabase[vehicle].timeRate,
+      perKilometer: "LYD "+fareFromDatabase[vehicle].distanceRatePerKm
     });
   }
   

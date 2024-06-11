@@ -31,8 +31,8 @@ export default function MyWalletMenu({ route, navigation }) {
     return (
       <View style={styles.container}>
         <Text style={{textTransform: 'uppercase'}}>Current Credit</Text>
-        <Text style={{fontSize: 30, fontWeight: 'bold', borderBottomWidth: 1, borderBottomColor: '#ccc', width: SCREEN_WIDTH-100, textAlign: 'center', paddingBottom: 5, marginBottom: 10}}>৳ {Number(walletBalance).toFixed(2)}</Text>
-        <Text style={{fontSize: 16}}>Soft Limit: <Text style={{color: 'orange'}}>৳50.00</Text> | Hard Limit: <Text style={{color: 'red'}}>৳100.00</Text></Text>
+        <Text style={{fontSize: 30, fontWeight: 'bold', borderBottomWidth: 1, borderBottomColor: '#ccc', width: SCREEN_WIDTH-100, textAlign: 'center', paddingBottom: 5, marginBottom: 10}}>LYD {Number(walletBalance).toFixed(2)}</Text>
+        <Text style={{fontSize: 16}}>Soft Limit: <Text style={{color: 'orange'}}>LYD50.00</Text> | Hard Limit: <Text style={{color: 'red'}}>LYD100.00</Text></Text>
         <TouchableOpacity onPress={() => navigation.navigate('recentTransaction', {mobile: route?.params?.mobile})} style={styles.addButton}>
           <FontAwesome5 name="clock" size={20} color="#fff" style={{marginRight: 10}} />
           <Text style={styles.addButtonText}>Recent Transaction</Text>

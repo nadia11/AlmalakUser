@@ -96,6 +96,8 @@ export default class MapScreen extends Component {
     this.socket = null;
     this.unsubscribe = null;
     this.driverMarkerIcon = null;
+    this.country = null;
+    this.countryCode= null;
   }
 
   isLocationEnabled = () => {
@@ -130,11 +132,11 @@ export default class MapScreen extends Component {
       Geolocation.getCurrentPosition(
         position => {
           this.setState({
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
+            latitude: 32.90171024312667,
+            longitude: 13.22752841137886,
             region: {
-              latitude: position.coords.latitude,
-              longitude: position.coords.longitude,
+              latitude: 32.90171024312667,
+              longitude: 13.22752841137886,
               latitudeDelta: 0.0922,
               longitudeDelta: 0.0421,
             },
@@ -142,15 +144,15 @@ export default class MapScreen extends Component {
           this.getReverseGeocoding();
         },
         error => geoErr(error),
-        { enableHighAccuracy: enableHighAccuracy, timeout: 20000, maximumAge: 1000 }
+        // { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 }
       );
       try{
       //enableHighAccuracy: true, get more accurate location
       this.watchId = Geolocation.watchPosition(
         position => {
           this.setState({
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
+            latitude: 32.90171024312667,
+            longitude: 13.22752841137886,
             region: { 
               latitude: position.coords.latitude,
               longitude: position.coords.longitude,
@@ -258,7 +260,13 @@ export default class MapScreen extends Component {
     .then(async response => {
       if (response.data.status === 'OK') {
         let pickUpLocation = '';
-        
+        const addressComponents = response.data.results[0].address_components;
+        addressComponents.forEach(component => {
+          if (component.types.includes('country')) {
+            this.country = component.long_name;
+            this.findCountryCode();
+          }
+        });
         if(((response.data.results[0].types[0] !== "street_address") || (response.data.results[0].address_components[0].types[0] !== "street_number")) && (response.data.results[0].address_components[0].long_name !== "Unnamed Road")) {
           pickUpLocation = response.data.results[0].address_components[0].long_name +", "+ response.data.results[0].address_components[1].long_name;
         } 
@@ -282,7 +290,7 @@ export default class MapScreen extends Component {
     try {
       const response = await fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${this.state.latitude},${this.state.longitude}&destination=place_id:${destinationPlaceId}&key=${GOOGLE_API_KEY}`);
       const json = await response.json();
-      console.log("points"+json);
+      console.log("pointss"+json);
       if(this.state.pickUpLocation && json.routes.length !==0) {
         const points = PolyLine.decode(json?.routes[0]?.overview_polyline?.points);
 
@@ -308,13 +316,14 @@ export default class MapScreen extends Component {
         this.getRouteDistance(destinationPlaceId);
       }
     }
-    catch (error) { console.log(error) }
+    catch (error) { console.log("Error"+error) }
   }
 
   async getRouteDistance(destinationPlaceId) {
     try {
       const response = await fetch(`https://maps.googleapis.com/maps/api/distancematrix/json?origins=${this.state.latitude},${this.state.longitude}&destinations=place_id:${destinationPlaceId}&key=${GOOGLE_API_KEY}&mode=driving`);
       const json = await response.json();
+      this.centerMap();
       this.setState({
         distance: {text: json.rows[0].elements[0].distance.text, value: json.rows[0].elements[0].distance.value},
         duration: {text: json.rows[0].elements[0].duration.text, value: json.rows[0].elements[0].duration.value}
@@ -323,7 +332,8 @@ export default class MapScreen extends Component {
   }
 
   async onChangePickUpLocation(pickUpLocation) {
-    const apiUrl = `https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${GOOGLE_API_KEY}&input=${pickUpLocation}&location=${this.state.latitude},${this.state.longitude}&radius=2000&components=country:BD`;
+    this.findCountryCode();
+    const apiUrl = `https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${GOOGLE_API_KEY}&input=${pickUpLocation}&location=${this.state.latitude},${this.state.longitude}&radius=2000&components=country:${this.countryCode}`;
     //&types=geocode&language=bn
     try {
       const result = await fetch(apiUrl);
@@ -333,8 +343,15 @@ export default class MapScreen extends Component {
     catch (error) { console.log(error) }
   }
 
+  findCountryCode() {
+    if (this.country === "Bangladesh")
+      this.countryCode = "BD";
+    else
+      this.countryCode = "LY"
+  }
+
   async onChangeDestination(destination) {
-    const apiUrl = `https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${GOOGLE_API_KEY}&input=${destination}&location=${this.state.latitude},${this.state.longitude}&radius=2000&components=country:BD&types=geocode&language=en`;
+    const apiUrl = `https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${GOOGLE_API_KEY}&input=${destination}&location=${this.state.latitude},${this.state.longitude}&radius=2000&components=country:${this.countryCode}&types=geocode&language=en`;
     try {
       const result = await fetch(apiUrl);
       const json = await result.json();
@@ -514,7 +531,7 @@ export default class MapScreen extends Component {
   }
   
   centerMap() {
-    this.map.animateToRegion({ latitude: this.state.region.latitude, longitude: this.state.region.longitude, latitudeDelta: this.state.region.latitudeDelta, longitudeDelta: this.state.region.longitudeDelta }, 700);
+    this.map.animateToRegion({ latitude: this.state.latitude, longitude: this.state.longitude, latitudeDelta: this.state.region.latitudeDelta, longitudeDelta: this.state.region.longitudeDelta }, 700);
     // this.map.fitToCoordinates(destinationCoords, { edgePadding: {top: 20, bottom: 150, left: 20, right: 20}, animated: true });
     this.setState({ locationButton: false });
   }
@@ -649,7 +666,22 @@ export default class MapScreen extends Component {
                      zoomEnabled={true} zoomControlEnabled={true} showsTraffic={this.state.showsTraffic}
                      showsCompass={true} rotateEnabled={false} ref={map => {this.map = map}}
             >
-              {this.state.pointCoords && <Polyline coordinates={this.state.pointCoords} strokeWidth={3} strokeColor="red" /> }
+              {/*{this.state.pointCoords && <Polyline coordinates={this.state.pointCoords} strokeWidth={3} strokeColor="red" /> }*/}
+              {this.state.pointCoords && (
+                  <Polyline
+                      coordinates={this.state.pointCoords}
+                      strokeWidth={3}
+                      strokeColor="red"
+                  />
+              )}
+              <Marker
+                  coordinate={{
+                    latitude: this.state.latitude,
+                    longitude: this.state.longitude,
+                  }}
+                  title="Current Location"
+                  description="You are here"
+              />
               {/*/!*{endMarker}*!/*/}
               {/*{startMarker}*/}
             </MapView>
@@ -680,7 +712,7 @@ export default class MapScreen extends Component {
 
               <View>
                 <FontAwesome5 name="map-marker-alt" size={22} color={Colors.PRIMARY} style={{ position: 'absolute', left: -3, top: 25}} />
-                <TextInput returnKeyType="search" clearButtonMode="always" placeholder="Enter Destination" value={this.state.destination} onChangeText={destination => {this.setState({ destination, destinationCoords: [], searchLoading: true }); this.onChangeDestinationDebounced(destination); }} style={styles.destinationInput} />
+                <TextInput selectTextOnFocus={true} returnKeyType="search" clearButtonMode="always" placeholder="Enter Destination" value={this.state.destination} onChangeText={destination => {this.setState({ destination, destPredictions: [], searchLoading: true }); this.onChangeDestinationDebounced(destination); }} onFocus={() => this.setState({showCurLocationBtnOnSearchModal: true})} onBlur={() => this.setState({showCurLocationBtnOnSearchModal: false})} style={styles.destinationInput} />
                 <ActivityIndicator size="small" color="red" style={styles.searchLoading} animating={this.state.searchLoading} />
               </View>
             </View>

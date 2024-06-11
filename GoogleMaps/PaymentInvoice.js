@@ -137,27 +137,27 @@ export default function PaymentInvoice(props)
 
       <View style={styles.row}>
         <Text style={[styles.itemName, {color: Colors.GREEN, fontWeight: 'bold'}]}>Total Fare</Text>
-        <Text style={[styles.itemValue, {color: Colors.GREEN}]}>৳{Number(fare).toFixed(2)}</Text>
+        <Text style={[styles.itemValue, {color: Colors.GREEN}]}>LYD{Number(fare).toFixed(2)}</Text>
       </View>
 
       <View style={styles.row}>
         <Text style={styles.itemName}>Promocode Discount</Text>
-        <Text style={styles.itemValue}>৳{Number(discountAmount).toFixed(2)}</Text>
+        <Text style={styles.itemValue}>LYD{Number(discountAmount).toFixed(2)}</Text>
       </View>
 
       <View style={styles.row}>
         <Text style={styles.itemName}>Delay Cancellation Fee</Text>
-        <Text style={styles.itemValue}>৳{Number(delayCancellationFee).toFixed(2)}</Text>
+        <Text style={styles.itemValue}>LYD{Number(delayCancellationFee).toFixed(2)}</Text>
       </View>
 
       <View style={styles.row}>
         <Text style={styles.itemName}>Destination Change Fee</Text>
-        <Text style={styles.itemValue}>৳{Number(destinationChangeFee).toFixed(2)}</Text>
+        <Text style={styles.itemValue}>LYD{Number(destinationChangeFee).toFixed(2)}</Text>
       </View>
       
       <View style={styles.row}>
         <Text style={[styles.itemName, {color: Colors.GREEN, fontWeight: 'bold'}]}>Payable Amount</Text>
-        <Text style={[styles.itemValue, {color: Colors.GREEN}]}>৳{Number(fare - discountAmount + delayCancellationFee + destinationChangeFee).toFixed(2)}</Text>
+        <Text style={[styles.itemValue, {color: Colors.GREEN}]}>LYD{Number(fare - discountAmount + delayCancellationFee + destinationChangeFee).toFixed(2)}</Text>
       </View>
 
       <View style={{ backgroundColor: '#fff', borderRadius: 5, marginTop: 30 }}>

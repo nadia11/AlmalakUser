@@ -121,14 +121,14 @@ export default function HomeScreen({ navigation }) {
           <TouchableOpacity onPress={showBalanceHandle} style={{ position: 'absolute', right: 10, top: 45 }}>
             {!showBalance && (
               <Animated.View style={{ height: 35, backgroundColor: '#fff', borderRadius: 40, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15 }}>
-                <Text style={{color: Colors.BUTTON_COLOR, fontSize: 20, fontWeight: 'bold'}}>৳</Text>
+                <Text style={{color: Colors.BUTTON_COLOR, fontSize: 20, fontWeight: 'bold'}}>LYD</Text>
                 <Text style={{color: '#333', fontSize: 14}}> Tap for Balance</Text>
               </Animated.View>
             )}
 
             {showBalance && (
               <View style={{ height: 35, backgroundColor: '#fff', borderRadius: 40, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 10 }}>
-                <Text style={{color: Colors.BUTTON_COLOR, fontSize: 20, fontWeight: 'bold'}}>৳</Text>
+                <Text style={{color: Colors.BUTTON_COLOR, fontSize: 20, fontWeight: 'bold'}}>LYD</Text>
                 <Text style={{color: '#333', fontSize: 14, marginLeft: 5}}>{Number(walletBalance).toFixed(2)}</Text>
               </View>
             )}

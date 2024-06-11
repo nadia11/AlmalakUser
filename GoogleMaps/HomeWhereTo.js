@@ -323,7 +323,7 @@ export default class HomeWhereToScreen extends Component {
   }
 
   async onChangePickUpLocation(pickUpLocation) {
-    const apiUrl = `https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${GOOGLE_API_KEY}&input=${pickUpLocation}&location=${this.state.latitude},${this.state.longitude}&radius=2000&components=country:BD`;
+    const apiUrl = `https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${GOOGLE_API_KEY}&input=${pickUpLocation}&location=${this.state.latitude},${this.state.longitude}&radius=2000&components=country:LY`;
     //&types=geocode&language=bn
     try {
       const result = await fetch(apiUrl);
@@ -334,7 +334,7 @@ export default class HomeWhereToScreen extends Component {
   }
 
   async onChangeDestination(destination) {
-    const apiUrl = `https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${GOOGLE_API_KEY}&input=${destination}&location=${this.state.latitude},${this.state.longitude}&radius=2000&components=country:BD&types=geocode&language=en`;
+    const apiUrl = `https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${GOOGLE_API_KEY}&input=${destination}&location=${this.state.latitude},${this.state.longitude}&radius=2000&components=country:LY&types=geocode&language=en`;
     try {
       const result = await fetch(apiUrl);
       const json = await result.json();
