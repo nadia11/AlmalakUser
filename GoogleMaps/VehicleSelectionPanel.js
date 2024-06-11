@@ -125,7 +125,7 @@ export default function VehicleSelectionPanel(props) {
                   <Text style={styles.title}>{obj.title.toLocaleUpperCase()}</Text>
                   <Text style={styles.seatNumber}>{obj.seatNumber}</Text>
                   <Text style={styles.distance}>{obj.distance}</Text>
-                  <Text style={styles.price} onPress={() => fareBreakdown(obj.title)}>৳{obj.price}</Text>
+                  <Text style={styles.price} onPress={() => fareBreakdown(obj.title)}>LYD {obj.price}</Text>
                   <Text style={styles.duration}><Ionicons size={20} name="time" /> {obj.duration}</Text>
               </View>
             </TouchableOpacity>

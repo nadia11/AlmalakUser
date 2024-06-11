@@ -132,11 +132,11 @@ export default class MapScreen extends Component {
       Geolocation.getCurrentPosition(
         position => {
           this.setState({
-            latitude: 32.90171024312667,
-            longitude: 13.22752841137886,
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
             region: {
-              latitude: 32.90171024312667,
-              longitude: 13.22752841137886,
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
               latitudeDelta: 0.0922,
               longitudeDelta: 0.0421,
             },
@@ -151,7 +151,7 @@ export default class MapScreen extends Component {
       this.watchId = Geolocation.watchPosition(
         position => {
           this.setState({
-            latitude: 32.90171024312667,
+            latitude: position.coords.latitude,
             longitude: 13.22752841137886,
             region: { 
               latitude: position.coords.latitude,

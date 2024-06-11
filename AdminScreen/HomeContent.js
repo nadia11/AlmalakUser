@@ -137,10 +137,10 @@ export default function HomeScreen({ navigation }) {
                 <Text style={styles.profileMobile}>{mobile}</Text>
               </View>
 
-              <TouchableOpacity onPress={showBalanceHandle} style={{ position: 'absolute', right: 10, top: 45 }}>
+              <TouchableOpacity onPress={showBalanceHandle} style={{ position: 'absolute', right: 5, top: 30 }}>
                 {!showBalance && (
                     <Animated.View style={{ height: 35, backgroundColor: '#fff', borderRadius: 40, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15 }}>
-                      <Text style={{color: Colors.BUTTON_COLOR, fontSize: 20, fontWeight: 'bold'}}>LYD</Text>
+                      <Text style={{color: Colors.BUTTON_COLOR, fontSize: 14, fontWeight: 'bold'}}>LYD</Text>
                       <Text style={{color: '#333', fontSize: 14}}> Tap for Balance</Text>
                     </Animated.View>
                 )}
