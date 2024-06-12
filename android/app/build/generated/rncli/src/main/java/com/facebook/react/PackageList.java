@@ -28,7 +28,7 @@ import org.reactnative.maskedview.RNCMaskedViewPackage;
 // @react-native-picker/picker
 import com.reactnativecommunity.picker.RNCPickerPackage;
 // react-native-android-location-enabler
-import com.heanoria.library.reactnative.locationenabler.RNAndroidLocationEnablerPackage;
+import com.heanoria.library.reactnative.locationenabler.AndroidLocationEnablerPackage;
 // react-native-contacts
 import com.rt2zz.reactnativecontacts.ReactNativeContacts;
 // react-native-device-info
@@ -108,7 +108,7 @@ public class PackageList {
       new NetInfoPackage(),
       new RNCMaskedViewPackage(),
       new RNCPickerPackage(),
-      new RNAndroidLocationEnablerPackage(),
+      new AndroidLocationEnablerPackage(),
       new ReactNativeContacts(),
       new RNDeviceInfo(),
       new ImagePickerPackage(),

@@ -7,7 +7,6 @@ import RNAndroidLocationEnabler from 'react-native-android-location-enabler';
 import NetInfo, { useNetInfo } from "@react-native-community/netinfo";
 import Modal from 'react-native-modal';
 import axios from 'axios';
-
 import MapView, { Marker, PROVIDER_GOOGLE, AnimatedRegion, Animated, Polyline } from 'react-native-maps';
 // import Geocoder from 'react-native-geocoder';
 //navigator.geolocation = require('@react-native-community/geolocation');
@@ -21,7 +20,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import DeviceInfo from 'react-native-device-info';
-
+import {isLocationEnabled, promptForEnableLocationIfNeeded} from 'react-native-android-location-enabler';
 import { Colors } from '../styles';
 import { Options } from '../config';
 import { GOOGLE_API_KEY, SOCKET_IO_URL, BASE_URL } from '../config/api';
@@ -110,7 +109,7 @@ export default class MapScreen extends Component {
 
   handleLocationEnable = () => {
     if (Platform.OS === 'android') {
-      RNAndroidLocationEnabler.promptForEnableLocationIfNeeded({interval: 10000, fastInterval: 5000})
+      promptForEnableLocationIfNeeded({interval: 10000, fastInterval: 5000})
       .then(data => {
         this.props.navigation.replace( 'MapScreen', null, null );
       })
@@ -119,10 +118,10 @@ export default class MapScreen extends Component {
   }
 
   async componentDidMount() {
+    this.isLocationEnabled();
     this.unsubscribe = NetInfo.addEventListener(state => { this.setState({connectionType: state.type, isConnected: state.isConnected}); });
     const { isConnected, type, isWifiEnabled } = await NetInfo.fetch();    
     const enableHighAccuracy = (type === "wifi" || undefined) ? false : true;
-    this.isLocationEnabled();
     this.retrieveDataFromStorage();
 
     let granted = false;
